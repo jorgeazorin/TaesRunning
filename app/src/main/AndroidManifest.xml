@@ -28,7 +28,8 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyA4V3UWgulSkBnvmHSP-wQyzXlyGe47jDg" />
 
-        <activity android:name=".Login">
+        <activity android:name=".Login"
+            android:theme="@style/AppTheme1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
