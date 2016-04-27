@@ -24,7 +24,7 @@ public class FragmentUsuario extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.otro, container, false);
         SwipeSelector swipeSelector = (SwipeSelector) rootView.findViewById(R.id.swipeSelector);
         swipeSelector.setItems(
-                new SwipeItem(0, "Slide one", "Description for slide one."),
+                new SwipeItem(0, Principal.user.getEmail(), "Description for slide one."),
                 new SwipeItem(1, "Slide two", "Description for slide two."),
                 new SwipeItem(2, "Slide three", "Description for slide three.")
         );

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "344760992865",
+    "project_id": "taesrunning"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:344760992865:android:c1d29bdc6b7c8df6",
+        "android_client_info": {
+          "package_name": "taes.running"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "344760992865-0v76einlrb03iutg3mer9s68o5k5qf8g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "taes.running",
+            "certificate_hash": "3B5845D9EB8ED90C8A963F8F514C668C8FAD5017"
+          }
+        },
+        {
+          "client_id": "344760992865-5bfkne6jd8q5be8av2pcuine2igd2rek.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiU0GhFEzje67yEwRlDpz3v_sU5TCspJs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

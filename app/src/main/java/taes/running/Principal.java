@@ -45,6 +45,7 @@ import io.nlopez.smartlocation.location.config.LocationParams;
 
 public class Principal extends FragmentActivity {
     public static FragmentManager fragmentManager;
+    public static Usuario user;
     Activity contexto;
 
     @Override
@@ -52,6 +53,7 @@ public class Principal extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
         contexto = this;
+        user = (Usuario) getIntent().getSerializableExtra("Usuario");
         initUI();
 
 
