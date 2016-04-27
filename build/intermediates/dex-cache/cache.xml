@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\libs\internal_impl-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="4da5a4d697d32497c6f85567a5112e62fdfd0676">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.3.0_83be6ca23ca529abdaeaad4a8fbef40c63ebe931\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\com.roughike\swipe-selector\1.0.6\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="8d38fb53a40eb2aee57093e65d758b675e9f157e">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.roughike-swipe-selector-1.0.6_b9f64920ed6af4e6d54cd6adcbfad2ac84b31bc7\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="a8412b654dab86d57bf90683367488211c8a81f1">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-location-8.4.0_f9966536ece928c95e8b9514e0403df94034229b\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\com.pnikosis\materialish-progress\1.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="57487745ce450899f9f250d5ae5c092a682cd041">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.pnikosis-materialish-progress-1.0_f0d9b08243898bd9fbf876f649b30e813d61c84b\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="a0b5d60246cd9d4f3f2443611b3b4c25265840b5">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-23.3.0_0adbaf93ff66f6bb2353aad97ecac60d98fe7902\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\com.github.akashandroid90.googlesupport\google-support-location\1.2\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="0f4aefcdc750377de2ee7be78734e3c55a53e86e">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.github.akashandroid90.googlesupport-google-support-location-1.2_23041c5f20ebe62a2a08f54338c947de5cbe9fd4\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\cn.pedant.sweetalert\library\1.3\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="0c3529d9491be892952749d252ae1defa9b1f937">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\cn.pedant.sweetalert-library-1.3_de527e56a57698a8eb75918609a8ba49b7af3755\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="04de44f90606c77f3b28cf44861f306290505aac">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-maps-8.4.0_2be73aa0cf5b04311cc2b6342e38381ac75647b5\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-base-8.4.0_b3875e965522731802d6abfe9e8e86cb26d847ee\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\io.nlopez.smartlocation\library\3.2.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="9f005bd05449fbd99a9f9baa8fa01631017bbaf8">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\io.nlopez.smartlocation-library-3.2.0_1490779d96c1f2f3016c0f2c69d633b2df3dc877\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="23be6993826b8fd88bbc8d14928bb3b8960d3d4e">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-23.3.0_8239ef61d151ea9c549d5bccfb43ee1bfe99fb6b\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="e1d099a3e8ab6cc364acd0f849faa32997b6ba59">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_bea576cd3f8536bd894ab0a87b46f1623e64ea14\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-basement-8.4.0_a0c9db2d2a9e23d9206c30e88eb19300061e6260\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\com.github.supervital\swipenumberpicker\1.0.3\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="651acd3d6d61d4ee536826ff0cd0fde43ae82389">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.github.supervital-swipenumberpicker-1.0.3_c243f5db757dee8e31b9ab31c770510cb7265574\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\.gradle\caches\modules-2\files-2.1\org.jsoup\jsoup\1.9.1\3dc0a3bea4f876c54846cd050e688f1bfc78fc96\jsoup-1.9.1.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="3dc0a3bea4f876c54846cd050e688f1bfc78fc96">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\jsoup-1.9.1_7f64b22cf9a9c08b5eda8e1d213a5b2fab178dc5\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="1b8e03daaa43fb0a4cd57e378167c2fd70454c1e">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.3.0_6f479a8b511a9196fc7a7a92eab6938eddc0fb8d\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="29dc0384036526c95597a931dcddbca15b077d4c">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_a6815fcbdb0b310c63e31b3cad79e1723f026a17\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\3.7.0\9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4\glide-3.7.0.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="9e9eeaf9948ee4d6c3ab354e8dc14368f16994a4">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\glide-3.7.0_79f6a4e948c6198dd28032fa5b172f7b5a2c2783\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.3.0\support-annotations-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="db7791d75a07fef9844d06236c1c59ba7bf6997c">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.3.0_9d5e47227ada4a1e31683a1045a5fd47f14caf48\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="8a034dd16c0dfd75fe86c52c2cd581592acc684a">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.3.0_23c0210a0729e684c019fbcbe686b7234fb21f2a\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\jorge\Desktop\Running\app\build\intermediates\exploded-aar\com.github.devlight.navigationtabbar\library\1.1.5\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.2"
+        sha1="8ba86d8aca1060032ffbbee075f0d9735cb6d333">
+        <dex dex="C:\Users\jorge\Desktop\Running\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.github.devlight.navigationtabbar-library-1.1.5_615b79b2d4a7b3ace4b7007030ae4dbc5c3a0673\classes.dex" />
+    </item>
+
+</items>

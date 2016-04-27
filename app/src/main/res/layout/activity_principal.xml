@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Title"
+            android:text="Taes Running"
+            android:id="@+id/textView"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="5dp"
+            android:paddingLeft="10dp"
+            android:background="#0e4e6c"
+            android:textColor="#ffffff"
+            android:singleLine="false" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFAFAFA">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_horizontal_ntb"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/wrapper_ntb_horizontal"/>
+
+            <View
+                android:id="@+id/mask"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_alignParentBottom="true"/>
+
+            <FrameLayout
+                android:id="@+id/wrapper_ntb_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:id="@+id/bg_ntb_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_gravity="top"
+                    android:background="#0e4e6c"/>
+
+                <com.gigamole.library.NavigationTabBar
+                    android:id="@+id/ntb_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    app:ntb_badge_gravity="bottom"
+                    app:ntb_badge_position="left"
+                    app:ntb_badge_use_typeface="true"
+                    app:ntb_inactive_color="#a7f2f2f2"
+                    app:ntb_badged="false"
+                    app:ntb_title_mode="active"
+                    app:ntb_titled="true"
+                    app:ntb_typeface="fonts/agency.ttf"/>
+
+            </FrameLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
