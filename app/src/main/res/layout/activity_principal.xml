@@ -34,7 +34,7 @@
                 android:id="@+id/vp_horizontal_ntb"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/wrapper_ntb_horizontal"/>
+                android:layout_below="@+id/wrapper_ntb_horizontal1"/>
 
             <View
                 android:id="@+id/mask"
@@ -43,7 +43,7 @@
                 android:layout_alignParentBottom="true"/>
 
             <FrameLayout
-                android:id="@+id/wrapper_ntb_horizontal"
+                android:id="@+id/wrapper_ntb_horizontal1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -64,8 +64,7 @@
                     app:ntb_inactive_color="#a7f2f2f2"
                     app:ntb_badged="false"
                     app:ntb_title_mode="active"
-                    app:ntb_titled="true"
-                    app:ntb_typeface="fonts/agency.ttf"/>
+                    app:ntb_titled="true"/>
 
             </FrameLayout>
         </RelativeLayout>
