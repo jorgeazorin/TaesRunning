@@ -1,13 +1,19 @@
 package taes.running;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.roughike.swipeselector.SwipeItem;
-import com.roughike.swipeselector.SwipeSelector;
+import com.gigamole.library.NavigationTabBar;
+
+import java.util.ArrayList;
+
+import fr.castorflex.android.verticalviewpager.VerticalViewPager;
+
 
 public class FragmentUsuario extends Fragment {
     public static FragmentUsuario newInstance() {
@@ -21,13 +27,10 @@ public class FragmentUsuario extends Fragment {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.otro, container, false);
-        SwipeSelector swipeSelector = (SwipeSelector) rootView.findViewById(R.id.swipeSelector);
-        swipeSelector.setItems(
-                new SwipeItem(0, Principal.user.getEmail(), "Description for slide one."),
-                new SwipeItem(1, "Slide two", "Description for slide two."),
-                new SwipeItem(2, "Slide three", "Description for slide three.")
-        );
+        final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.usuario, container, false);
+        final VerticalViewPager viewPager = (VerticalViewPager) rootView.findViewById(R.id.UsuarioVVP);
+        AdaptadorUsuario  adaptadorUsuario= new AdaptadorUsuario(getContext());
+        viewPager.setAdapter(adaptadorUsuario);
         return rootView;
     }
 }

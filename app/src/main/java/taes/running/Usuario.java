@@ -1,10 +1,39 @@
 package taes.running;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
+import android.util.Log;
 
+import com.github.kittinunf.fuel.Fuel;
+import com.github.kittinunf.fuel.core.FuelError;
+import com.github.kittinunf.fuel.core.Handler;
+import com.github.kittinunf.fuel.core.Request;
+import com.github.kittinunf.fuel.core.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import kotlin.Pair;
 
 public class Usuario implements Serializable {
     private String email;
@@ -77,5 +106,43 @@ public class Usuario implements Serializable {
     }
     public String getFoto(){
         return foto;
+    }
+
+    public boolean enviarAlServidor(Context c){
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("name", nombre);
+            json.put("password",id);
+            json.put("email",email);
+            json.put("level",nivel);
+            json.put("city","Alicante");
+            json.put("rol","USER");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final SweetAlertDialog pDialog = new SweetAlertDialog(c, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Loading");
+        pDialog.setCancelable(false);
+        pDialog.show();
+        Fuel.post("http://40.68.172.180:3000/users").header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
+            @Override
+            public void failure(Request request, Response response, FuelError error) {
+                System.out.println("nokkkkkkkkkk");
+                pDialog.dismiss();
+                //do something when it is failure
+            }
+
+            @Override
+            public void success(Request request,Response response, String data) {
+                System.out.println("okkkkkkkkkk");
+                System.out.println(data);
+                pDialog.dismiss();
+            }
+        });
+        return true;
     }
 }
