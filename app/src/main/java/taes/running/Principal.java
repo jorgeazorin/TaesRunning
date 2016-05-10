@@ -38,6 +38,8 @@ import com.vi.swipenumberpicker.SwipeNumberPicker;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
@@ -47,6 +49,7 @@ public class Principal extends FragmentActivity {
     public static FragmentManager fragmentManager;
     public static Usuario user;
     Activity contexto;
+    public static int cronometro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,26 +58,9 @@ public class Principal extends FragmentActivity {
         contexto = this;
         user = (Usuario) getIntent().getSerializableExtra("Usuario");
         initUI();
-
-
-        //Obtener la localización para rellenar el mapa mientras corremos o lo que sea
-        final PolylineOptions p = new PolylineOptions().color(this.getResources().getColor(R.color.colorPrimary));
-        SmartLocation.with(this).location().config(LocationParams.NAVIGATION).start(new OnLocationUpdatedListener() {
-            @Override
-            public void onLocationUpdated(Location location) {
-                if (FragmentCorrer.map != null) {
-                    FragmentCorrer.map.addPolyline(p);
-                    ((TextView) FragmentCorrer.v.findViewById(R.id.Correr_Velocidad)).setText("Velocidad: "+(location.getSpeed()*3.6) +" km/h");
-                    p.add(new LatLng(location.getLatitude(), location.getLongitude()));
-                    CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).bearing(70).tilt(25).target(new LatLng(location.getLatitude(), location.getLongitude())).build();
-                    FragmentCorrer.map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    if (ActivityCompat.checkSelfPermission(contexto, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(contexto, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    } else
-                        FragmentCorrer.map.setMyLocationEnabled(true);
-                }
-            }
-        });
+        SmartLocation.with(this).location().config(LocationParams.NAVIGATION).stop();
     }
+
 
 
 

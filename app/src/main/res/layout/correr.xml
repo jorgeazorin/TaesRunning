@@ -2,7 +2,90 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/linearCorrer">
+    android:id="@+id/linearCorrer"
+    android:background="#ffffff"
+    android:baselineAligned="true">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="00:00:00"
+        android:id="@+id/correr_contador"
+        android:padding="20dp"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textColor="#0e4e6c" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="0.00"
+            android:id="@+id/correr_distancia"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="0.00"
+            android:id="@+id/correr_velocidadmedia"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="0.00"
+            android:id="@+id/correr_calorias"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textSize="25sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Distancia (Km.)"
+            android:id="@+id/textView11"
+            android:layout_weight="1"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="V. Media (Km/h.)"
+            android:id="@+id/textView12"
+            android:layout_weight="1"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Calorias"
+            android:id="@+id/textView13"
+            android:layout_weight="1"
+            android:textAlignment="center" />
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,26 +96,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </RelativeLayout>
-
-        <TextView
+        <com.dd.morphingbutton.MorphingButton
+            android:id="@+id/correr_boton_empezar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Velocidad: "
-            android:id="@+id/Correr_Velocidad"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentLeft="false"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/borderradius"
             android:textColor="#ffffff"
-            android:paddingLeft="20dp"
-            android:paddingRight="020dp"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:textSize="15sp"
-            android:textIsSelectable="true" />
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:text="Iniciar"
+            android:background="#76afcf" />
+
+
     </RelativeLayout>
 
 </LinearLayout>
