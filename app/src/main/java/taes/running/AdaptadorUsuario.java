@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.db.chart.model.Bar;
 import com.db.chart.model.BarSet;
 import com.db.chart.model.ChartSet;
@@ -32,6 +33,13 @@ public class AdaptadorUsuario extends PagerAdapter {
         switch (position) {
             case 0:
                 layout=  (ViewGroup) inflater.inflate(R.layout.usuario_perfil, collection, false);
+                ImageView imagenPerfil=(ImageView) layout.findViewById(R.id.usuario_imagen_Perfil);
+                TextView nombrePerfil=(TextView) layout.findViewById(R.id.usuario_Nombre);
+                nombrePerfil.setText(Principal.user.getNombre());
+                Glide.with(mContext)
+                        .load(Principal.user.getFoto())
+                        .placeholder(R.drawable.staticmap)
+                        .into(imagenPerfil);
                 break;
             case 1:
                 layout=  (ViewGroup) inflater.inflate(R.layout.ruta_recorrida, collection, false);

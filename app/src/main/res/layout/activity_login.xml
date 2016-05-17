@@ -13,7 +13,7 @@
         android:backgroundTintMode="screen"
         android:adjustViewBounds="false"
         android:scaleType="centerCrop"
-        android:src="@drawable/fondo1" />
+        android:src="@drawable/fondo1"/>
 
     <ImageView
         android:layout_width="match_parent"

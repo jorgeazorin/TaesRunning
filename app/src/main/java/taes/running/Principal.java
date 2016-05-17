@@ -48,6 +48,7 @@ import io.nlopez.smartlocation.location.config.LocationParams;
 public class Principal extends FragmentActivity {
     public static FragmentManager fragmentManager;
     public static Usuario user;
+    public static String rutas;
     Activity contexto;
     public static int cronometro;
 
@@ -57,6 +58,7 @@ public class Principal extends FragmentActivity {
         setContentView(R.layout.activity_principal);
         contexto = this;
         user = (Usuario) getIntent().getSerializableExtra("Usuario");
+        rutas =  getIntent().getStringExtra("Rutas");
         initUI();
         SmartLocation.with(this).location().config(LocationParams.NAVIGATION).stop();
     }

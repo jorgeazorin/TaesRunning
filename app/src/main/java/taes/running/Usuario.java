@@ -1,6 +1,7 @@
 package taes.running;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
@@ -11,6 +12,7 @@ import com.github.kittinunf.fuel.core.Handler;
 import com.github.kittinunf.fuel.core.Request;
 import com.github.kittinunf.fuel.core.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -108,8 +110,8 @@ public class Usuario implements Serializable {
         return foto;
     }
 
-    public boolean enviarAlServidor(Context c){
-
+    public boolean enviarAlServidor(final Context c){
+        final Usuario usuario=this;
         JSONObject json = new JSONObject();
         try {
             json.put("name", nombre);
@@ -128,19 +130,74 @@ public class Usuario implements Serializable {
         pDialog.setTitleText("Loading");
         pDialog.setCancelable(false);
         pDialog.show();
-        Fuel.post("http://40.68.172.180:3000/users").header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
+        Fuel.post("http://13.95.145.255:3000/users").header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
             @Override
             public void failure(Request request, Response response, FuelError error) {
                 System.out.println("nokkkkkkkkkk");
+                pDialog.setTitleText("Error!")
+                        .setContentText("No se ha podedio conectar con el servidor")
+                        .setConfirmText("OK")
+                        .showCancelButton(false)
+                        .setConfirmClickListener(null)
+                        .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                Fuel.get("http://13.95.145.255:3000/routes/").responseString(new Handler<String>() {
+                    @Override
+                    public void failure(Request request, Response response, FuelError error) {
+                        System.out.println("nokkkkkkkkkk");
+                        pDialog.setTitleText("Error!")
+                                .setContentText("No se han obtenido rutas")
+                                .setConfirmText("OK")
+                                .showCancelButton(false)
+                                .setConfirmClickListener(null)
+                                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                        //do something when it is failure
+                    }
+
+                    @Override
+                    public void success(Request request,Response response, String data) {
+                        System.out.println("okkkkkkkkkk");
+                        JSONArray jsonArray=new JSONArray();
+                        Intent intent = new Intent(c, Principal.class);
+                        intent.putExtra("Usuario", usuario);
+                        intent.putExtra("Rutas",data);
+                        c.startActivity(intent);
+                        pDialog.dismiss();
+                    }
+                });
                 pDialog.dismiss();
                 //do something when it is failure
             }
 
             @Override
             public void success(Request request,Response response, String data) {
+
+
+                Fuel.get("http://13.95.145.255:3000/routes/").responseString(new Handler<String>() {
+                    @Override
+                    public void failure(Request request, Response response, FuelError error) {
+                        System.out.println("nokkkkkkkkkk");
+                        pDialog.setTitleText("Error!")
+                                .setContentText("No se han obtenido rutas")
+                                .setConfirmText("OK")
+                                .showCancelButton(false)
+                                .setConfirmClickListener(null)
+                                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    }
+
+                    @Override
+                    public void success(Request request,Response response, String data) {
+                        System.out.println("okkkkkkkkkk");
+                        JSONArray jsonArray=new JSONArray();
+                        Intent intent = new Intent(c, Principal.class);
+                        intent.putExtra("Usuario", usuario);
+                        intent.putExtra("Rutas",data);
+                        c.startActivity(intent);
+                        pDialog.dismiss();
+                    }
+                });
                 System.out.println("okkkkkkkkkk");
                 System.out.println(data);
-                pDialog.dismiss();
+
             }
         });
         return true;

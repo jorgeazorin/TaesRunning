@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#0e4e6c</color>
     <color name="colorAccent">#f2f2f2</color>
     <color name="boton_correr_otro">#ae3535</color>
+    <color name="boton_correr_otro1">#358aae</color>
+
 </resources>

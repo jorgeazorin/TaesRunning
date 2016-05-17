@@ -73,12 +73,10 @@ public class Login extends AppCompatActivity  implements  GoogleApiClient.OnConn
                 user.setEmail(result.getSignInAccount().getEmail());
                 user.setNombre(result.getSignInAccount().getDisplayName().toString());
                 user.setId(result.getSignInAccount().getIdToken());
+                if(result.getSignInAccount().getPhotoUrl()!=null)
                 user.setFoto(result.getSignInAccount().getPhotoUrl().toString());
                 user.enviarAlServidor(this);
-                Intent intent = new Intent(this, Principal.class);
-                intent.putExtra("Usuario", user);
 
-                startActivity(intent);
             }
         }
     }

@@ -1,6 +1,7 @@
 package taes.running;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -18,6 +19,11 @@ import android.widget.TextView;
 
 import com.dd.morphingbutton.MorphingButton;
 import com.github.akashandroid90.googlesupport.location.AppLocationFragment;
+import com.github.kittinunf.fuel.Fuel;
+import com.github.kittinunf.fuel.core.FuelError;
+import com.github.kittinunf.fuel.core.Handler;
+import com.github.kittinunf.fuel.core.Request;
+import com.github.kittinunf.fuel.core.Response;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,13 +36,20 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.roughike.swipeselector.SwipeItem;
 import com.roughike.swipeselector.SwipeSelector;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
 import io.nlopez.smartlocation.location.config.LocationParams;
+import kotlin.Pair;
 
 public class FragmentCorrer extends Fragment  {
     private SupportMapFragment fragment;
@@ -47,6 +60,9 @@ public class FragmentCorrer extends Fragment  {
     private Location ultimaLocation=null;
     private int calorias;
     private boolean moverMapa=false;
+    private PolylineOptions p;
+    private int wMorphingButton=0;
+    private int hMorphingButton=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          v =inflater.inflate(R.layout.correr, container, false);
@@ -72,6 +88,9 @@ public class FragmentCorrer extends Fragment  {
                 if(!corriendo) {
                     EmpezarACorrer();
                     corriendo = true;
+                    wMorphingButton=btnMorph.getWidth();
+                    hMorphingButton=btnMorph.getHeight();
+
                     MorphingButton.Params circle = MorphingButton.Params.create().text("Parar")
                             .duration(300)
                             .cornerRadius(150)
@@ -85,9 +104,9 @@ public class FragmentCorrer extends Fragment  {
                     MorphingButton.Params circle = MorphingButton.Params.create().text("Empezar")
                             .duration(300)
                             .cornerRadius(0)
-                            .width(-2)
-                            .height(-2)
-                            .color(getResources().getColor(R.color.boton_correr_otro));
+                            .width(wMorphingButton)
+                            .height(hMorphingButton)
+                           .color(getResources().getColor(R.color.boton_correr_otro1));
                     btnMorph.morph(circle);
                 }
             }
@@ -101,6 +120,7 @@ public class FragmentCorrer extends Fragment  {
         super.onResume();
         if (map == null) {
             map = fragment.getMap();
+
             map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
@@ -116,10 +136,15 @@ public class FragmentCorrer extends Fragment  {
 
 
     public void EmpezarACorrer(){
-        final PolylineOptions p = new PolylineOptions().color(this.getResources().getColor(R.color.colorPrimary));
+        map.clear();
+        p=new PolylineOptions().color(this.getResources().getColor(R.color.colorPrimary));
+        map.addPolyline(p);
+
+       // final PolylineOptions p = new PolylineOptions().color(this.getResources().getColor(R.color.colorPrimary));
         SmartLocation.with(v.getContext()).location().config(LocationParams.NAVIGATION).start(new OnLocationUpdatedListener() {
             @Override
             public void onLocationUpdated(Location location) {
+                map.addPolyline(p);
                 if(ultimaLocation!=null)
                 distancia+=location.distanceTo(ultimaLocation);
                 TextView txtDistancia = (TextView) v.findViewById(R.id.correr_distancia);
@@ -137,7 +162,6 @@ public class FragmentCorrer extends Fragment  {
                 txtDistancia.setText(df.format(distancia/1000));
                 ultimaLocation=location;
                 if (FragmentCorrer.map != null) {
-                    FragmentCorrer.map.addPolyline(p);
                     p.add(new LatLng(location.getLatitude(), location.getLongitude()));
                     if (ActivityCompat.checkSelfPermission(v.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(v.getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     } else
@@ -195,7 +219,93 @@ public class FragmentCorrer extends Fragment  {
     public void PararDeCorrer(){
         SmartLocation.with(v.getContext()).location().config(LocationParams.NAVIGATION).stop();
         timer.cancel();
-        Principal.cronometro=0;
+        new SweetAlertDialog(v.getContext(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("¿Quieres guardar la ruta?")
+                .setContentText("La ruta será compartida con todos!")
+                .setConfirmText("Si, guardarla!")
+                .showCancelButton(true)
+                .setCancelText("No, no guardar!")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(final SweetAlertDialog sDialog) {
+                       // SweetAlertDialog.PROGRESS_TYPE);
+                        sDialog.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+                        sDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                        sDialog.setTitleText("Loading").showCancelButton(false);
+                        sDialog.setContentText("");
+
+                        sDialog.setCancelable(false);
+                        final JSONObject json = new JSONObject();
+                        try {
+
+                            JSONObject jsonRuta = new JSONObject();
+                            jsonRuta.put("nombre",Principal.user.getNombre());
+                            jsonRuta.put("distancia",distancia);
+                            JSONObject jsonDatosCorridos = new JSONObject();
+                            jsonDatosCorridos.put("velocidad",distancia*3.6/Principal.cronometro);
+                            Principal.cronometro=0;
+                            jsonDatosCorridos.put("km",distancia/1000);
+                            jsonDatosCorridos.put("calorias",calorias);
+                            jsonDatosCorridos.put("fecha","12/12/2015");
+                            json.put("ruta", jsonRuta);
+                            json.put("datosCorridos", jsonDatosCorridos);
+                            JSONArray Puntos = new JSONArray();
+                            for(int i=0;i<p.getPoints().size();i++){
+                                JSONObject punto = new JSONObject();
+                                punto.put("lati",p.getPoints().get(i).latitude);
+                                punto.put("longi",p.getPoints().get(i).longitude);
+                                Puntos.put(punto);
+                            }
+                            json.put("puntosRuta",Puntos);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("kkkkkkkkkkkkkkkk "+json.toString());
+
+                        Fuel.post("http://13.95.145.255:3000/routes/").header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
+                            @Override
+                            public void failure(Request request, Response response, FuelError error) {
+                                sDialog.setTitleText("Error!")
+                                        .setContentText("Tu ruta no ha sido guardada!")
+                                        .setConfirmText("OK")
+                                        .showCancelButton(false)
+                                        .setConfirmClickListener(null)
+                                        .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                            }
+
+                            @Override
+                            public void success(Request request,Response response, String data) {
+                                sDialog.setTitleText("Guardada!")
+                                        .setContentText("Tu ruta ha sido guardada!")
+                                        .setConfirmText("OK").showCancelButton(false)
+                                        .setConfirmClickListener(null)
+                                        .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+
+
+                                Fuel.get("http://13.95.145.255:3000/routes/").responseString(new Handler<String>() {
+                                    @Override
+                                    public void failure(Request request, Response response, FuelError error) {
+                                        System.out.println("nokkkkkkkkkk");
+
+                                    }
+
+                                    @Override
+                                    public void success(Request request,Response response, String data) {
+                                        System.out.println("okkkkkkkkkk");
+                                        Principal.rutas=data;
+                                        try {
+                                            FragmentRutas.jsonArray=new JSONArray(data);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                })
+                .show();
+
     }
 
 
