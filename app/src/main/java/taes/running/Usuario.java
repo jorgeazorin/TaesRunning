@@ -130,7 +130,7 @@ public class Usuario implements Serializable {
         pDialog.setTitleText("Loading");
         pDialog.setCancelable(false);
         pDialog.show();
-        Fuel.post("http://13.95.145.255:3000/users").header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
+        Fuel.post("http://13.95.145.255/users").header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
             @Override
             public void failure(Request request, Response response, FuelError error) {
                 System.out.println("nokkkkkkkkkk");
@@ -140,7 +140,7 @@ public class Usuario implements Serializable {
                         .showCancelButton(false)
                         .setConfirmClickListener(null)
                         .changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                Fuel.get("http://13.95.145.255:3000/routes/").responseString(new Handler<String>() {
+                Fuel.get("http://13.95.145.255/routes/").responseString(new Handler<String>() {
                     @Override
                     public void failure(Request request, Response response, FuelError error) {
                         System.out.println("nokkkkkkkkkk");
@@ -172,7 +172,7 @@ public class Usuario implements Serializable {
             public void success(Request request,Response response, String data) {
 
 
-                Fuel.get("http://13.95.145.255:3000/routes/").responseString(new Handler<String>() {
+                Fuel.get("http://13.95.145.255/routes/").responseString(new Handler<String>() {
                     @Override
                     public void failure(Request request, Response response, FuelError error) {
                         System.out.println("nokkkkkkkkkk");

@@ -262,7 +262,7 @@ public class FragmentCorrer extends Fragment  {
                         }
                         System.out.println("kkkkkkkkkkkkkkkk "+json.toString());
 
-                        Fuel.post("http://13.95.145.255:3000/routes/").header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
+                        Fuel.post("http://13.95.145.255/routes/").header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
                             @Override
                             public void failure(Request request, Response response, FuelError error) {
                                 sDialog.setTitleText("Error!")
@@ -282,7 +282,7 @@ public class FragmentCorrer extends Fragment  {
                                         .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
 
 
-                                Fuel.get("http://13.95.145.255:3000/routes/").responseString(new Handler<String>() {
+                                Fuel.get("http://13.95.145.255/routes/").responseString(new Handler<String>() {
                                     @Override
                                     public void failure(Request request, Response response, FuelError error) {
                                         System.out.println("nokkkkkkkkkk");
