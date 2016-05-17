@@ -1,20 +1,16 @@
 package taes.running;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.db.chart.model.Bar;
-import com.db.chart.model.BarSet;
-import com.db.chart.model.ChartSet;
-import com.db.chart.view.StackBarChartView;
-import com.db.chart.view.animation.Animation;
+import com.github.channguyen.rsv.RangeSliderView;
 
 /**
  * Created by jorge on 27/04/2016.
@@ -26,9 +22,14 @@ public class AdaptadorUsuario extends PagerAdapter {
         mContext = context;
     }
 
+    private RangeSliderView smallSlider;
+
+    private RangeSliderView largeSlider;
+
+
     @Override
     public Object instantiateItem(ViewGroup collection, int position) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
+        final LayoutInflater inflater = LayoutInflater.from(mContext);
         ViewGroup layout = null;
         switch (position) {
             case 0:
@@ -43,24 +44,23 @@ public class AdaptadorUsuario extends PagerAdapter {
                 break;
             case 1:
                 layout=  (ViewGroup) inflater.inflate(R.layout.ruta_recorrida, collection, false);
-                StackBarChartView barras= (StackBarChartView) layout.findViewById(R.id.Usuariolinechart);
-                BarSet data= new BarSet();
-               // float[] values={ 5 , 3 , 2 };
-                data.addBar("hola",10);
-                data.addBar("hola",4);
-                data.addBar("hola",3);
-                data.addBar("hola",2);
-                data.addBar("hola",10);
-                data.addBar("hola",4);
-                data.addBar("hola",3);
-                data.addBar("hola",2);
-                data.addBar("hola",10);
-                data.addBar("hola",4);
-                data.addBar("hola",3);
-                data.addBar("hola",2);
-                barras.addData(data);
-                Animation anim = new Animation(20);
-                barras.show(anim);
+                //smallSlider = (RangeSliderView) layout.findViewById(R.id.rsv_large);
+                largeSlider = (RangeSliderView) layout.findViewById(R.id.rsv_large);
+                final RangeSliderView.OnSlideListener listener = new RangeSliderView.OnSlideListener() {
+                    @Override
+                    public void onSlide(int index) {
+                        Toast.makeText(
+                                inflater.getContext(),"Hi index: " + index,Toast.LENGTH_SHORT).show();
+                    }
+                };
+                //smallSlider.setOnSlideListener(listener);
+                largeSlider.setOnSlideListener(listener);
+
+                //-------------------------------
+
+
+
+
                 break;
             case 2:
                 layout=  (ViewGroup) inflater.inflate(R.layout.usuario_perfil, collection, false);
