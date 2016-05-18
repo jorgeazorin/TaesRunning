@@ -75,6 +75,8 @@ public class FragmentCorrer extends Fragment  {
         super.onActivityCreated(savedInstanceState);
         FragmentManager fm = getChildFragmentManager();
         fragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
+
+
         if (fragment == null) {
             fragment = SupportMapFragment.newInstance();
             fm.beginTransaction().replace(R.id.map, fragment).commit();
@@ -121,7 +123,23 @@ public class FragmentCorrer extends Fragment  {
         super.onResume();
         if (map == null) {
             map = fragment.getMap();
-            System.out.println("kkkkkkkkkkkkkkkkkkkkkkkkkk");
+
+           map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                @Override
+                public void onMapLoaded() {
+                    map.setMyLocationEnabled(true);
+                    map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+                        @Override
+                        public void onMyLocationChange(Location location) {
+                            if(!moverMapa) {
+                                CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).bearing(70).tilt(25).target(new LatLng(location.getLatitude(), location.getLongitude())).build();
+                                map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                            }
+                        }
+                    });
+
+                }
+            });
 
             map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                 @Override
@@ -145,11 +163,11 @@ public class FragmentCorrer extends Fragment  {
         distancia=0;
         Principal.cronometro=0;
         map.clear();
-        map.addPolyline(RutaACorrer);
+        if(RutaACorrer!=null)
+            map.addPolyline(RutaACorrer);
         p=new PolylineOptions().color(this.getResources().getColor(R.color.colorPrimary));
         map.addPolyline(p);
 
-       // final PolylineOptions p = new PolylineOptions().color(this.getResources().getColor(R.color.colorPrimary));
         SmartLocation.with(v.getContext()).location().config(LocationParams.NAVIGATION).start(new OnLocationUpdatedListener() {
             @Override
             public void onLocationUpdated(Location location) {
@@ -160,10 +178,7 @@ public class FragmentCorrer extends Fragment  {
                 TextView txtCalorias = (TextView) v.findViewById(R.id.correr_calorias);
                 DecimalFormat dff = new DecimalFormat();
                 dff.setMaximumFractionDigits(0);
-                if(!moverMapa) {
-                    CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).bearing(70).tilt(25).target(new LatLng(location.getLatitude(), location.getLongitude())).build();
-                    map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                }
+
                 float calori=375*distancia/5000;
                 txtCalorias.setText(dff.format(calori));
                 DecimalFormat df = new DecimalFormat();

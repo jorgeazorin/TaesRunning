@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -40,36 +41,47 @@ public class adaptadorListaEventos extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        if(position>jsonArrayEnLosQueParticipo.length()+1)
-            try {
-                return jsonArrayTodosLosEventos.getJSONObject(jsonArrayTodosLosEventos.length()-jsonArrayEnLosQueParticipo.length()-2);
-            } catch (JSONException e) {
-                e.printStackTrace();
+        try {
+
+            if (position == 0) {
+                return -1;
+            } else if (position == jsonArrayEnLosQueParticipo.length() + 1) {
+                return -1;
+            } else {
+                if (position <= jsonArrayEnLosQueParticipo.length()) {
+                    position = position - 1;
+                    return jsonArrayEnLosQueParticipo.getJSONObject(position);
+                } else {
+                    position = position - jsonArrayEnLosQueParticipo.length() - 2;
+                    return jsonArrayTodosLosEventos.getJSONObject(position);
+                }
             }
-        else
-            try {
-                return jsonArrayEnLosQueParticipo.getJSONObject(jsonArrayEnLosQueParticipo.length()-1);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        return null;
+        }catch (Exception  e){
+
+        }
+        return -1;
     }
 
     @Override
     public long getItemId(int position) {
-        if(position>jsonArrayEnLosQueParticipo.length()+1)
-            try {
-                return jsonArrayTodosLosEventos.getJSONObject(jsonArrayTodosLosEventos.length()-jsonArrayEnLosQueParticipo.length()-2).getInt("id");
-            } catch (JSONException e) {
-                e.printStackTrace();
+        try {
+
+            if (position == 0) {
+                return -1;
+            } else if (position == jsonArrayEnLosQueParticipo.length() + 1) {
+                return -1;
+            } else {
+                if (position <= jsonArrayEnLosQueParticipo.length()) {
+                    position = position - 1;
+                    return jsonArrayEnLosQueParticipo.getJSONObject(position).getInt("id");
+                } else {
+                    position = position - jsonArrayEnLosQueParticipo.length() - 2;
+                    return jsonArrayTodosLosEventos.getJSONObject(position).getInt("id");
+                }
             }
-        else
-            try {
-                return jsonArrayEnLosQueParticipo.getJSONObject(jsonArrayEnLosQueParticipo.length()-1).getInt("id");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        //return null;
+        }catch (Exception  e){
+
+        }
         return -1;
     }
 

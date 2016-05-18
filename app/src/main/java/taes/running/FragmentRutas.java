@@ -199,7 +199,7 @@ public class FragmentRutas extends Fragment {
                             JSONArray jsonArray2= null;
                             try {
                                 jsonArray2 = new JSONArray(data);
-                                adaptadorListaEventos adaptadorEventos = new adaptadorListaEventos(inflater.getContext(),jsonArray1, jsonArray2);
+                                adaptadorListaEventos adaptadorEventos = new adaptadorListaEventos(inflater.getContext(),jsonArray1, jsonArray1);
                                 rutasListView.setAdapter(adaptadorEventos);
                                 pDialog.dismiss();
                             } catch (JSONException e) {
@@ -207,9 +207,6 @@ public class FragmentRutas extends Fragment {
                             }
                         }
                     });
-
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
