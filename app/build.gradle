@@ -37,6 +37,7 @@ dependencies {
     compile 'com.github.kittinunf.fuel:fuel-android:1.2.1' //for Android
     compile 'com.github.kittinunf.fuel:fuel-rxjava:1.2.1' //for RxJava supportn
     compile 'com.github.dmytrodanylyk:android-morphing-button:v1.0.0'
+    compile 'com.github.channguyen:rsv:1.0.1'
     // compile 'com.google.android.gms:play-services-location:8.4.0'
     compile ('io.nlopez.smartlocation:library:3.2.0') {
         transitive = false
