@@ -51,6 +51,7 @@ public class Principal extends FragmentActivity {
     public static String rutas;
     Activity contexto;
     public static int cronometro;
+   public static ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class Principal extends FragmentActivity {
 
 
     private void initUI() {
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.vp_horizontal_ntb);
+       viewPager = (ViewPager) findViewById(R.id.vp_horizontal_ntb);
         principalPageadapter principalPageadapte = new principalPageadapter(getSupportFragmentManager());
         fragmentManager=getSupportFragmentManager();
         viewPager.setAdapter(principalPageadapte);
@@ -94,6 +95,7 @@ public class Principal extends FragmentActivity {
                 bgNavigationTabBar.requestLayout();
             }
         });
+
     }
 
     public static class principalPageadapter extends FragmentPagerAdapter {

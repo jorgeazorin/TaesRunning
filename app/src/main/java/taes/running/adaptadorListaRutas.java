@@ -56,7 +56,13 @@ public class adaptadorListaRutas  extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return position;
+        try {
+            return jsonArray.getJSONObject(getCount()-position-1).getInt("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //  return position;
+        return 0;
     }
 
     @Override

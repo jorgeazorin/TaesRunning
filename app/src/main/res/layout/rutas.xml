@@ -5,45 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <com.roughike.swipeselector.SwipeSelector
+        android:id="@+id/Rutas_Selector"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
-        <com.vi.swipenumberpicker.SwipeNumberPicker
-            android:id="@+id/number_picker"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            app:snp_numberColor="@color/colorAccent"
-            app:snp_arrowColor="@color/colorAccent"
-            app:snp_backgroundColor="#44819e"
-            app:snp_max="1000"
-            app:snp_min="50"
-            app:snp_value="95"
-            android:layout_weight="1"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp" />
-        <com.vi.swipenumberpicker.SwipeNumberPicker
-            android:id="@+id/number_picker1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            app:snp_numberColor="@color/colorAccent"
-            app:snp_arrowColor="@color/colorAccent"
-            app:snp_backgroundColor="#44819e"
-            app:snp_max="1000"
-            app:snp_min="50"
-            app:snp_value="95"
-            android:layout_weight="1"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp" />
-    </LinearLayout>
-
-
-
+        android:layout_height="80dp"
+        app:swipe_descriptionGravity="center" />
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

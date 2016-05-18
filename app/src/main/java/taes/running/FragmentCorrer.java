@@ -61,6 +61,7 @@ public class FragmentCorrer extends Fragment  {
     private int calorias;
     private boolean moverMapa=false;
     private PolylineOptions p;
+    public static PolylineOptions RutaACorrer;
     private int wMorphingButton=0;
     private int hMorphingButton=0;
     @Override
@@ -120,6 +121,7 @@ public class FragmentCorrer extends Fragment  {
         super.onResume();
         if (map == null) {
             map = fragment.getMap();
+            System.out.println("kkkkkkkkkkkkkkkkkkkkkkkkkk");
 
             map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                 @Override
@@ -127,6 +129,9 @@ public class FragmentCorrer extends Fragment  {
                     moverMapa=!moverMapa;
                 }
             });
+        }else{
+
+//            System.out.println(RutaACorrer.getPoints().size());
         }
     }
 
@@ -136,7 +141,11 @@ public class FragmentCorrer extends Fragment  {
 
 
     public void EmpezarACorrer(){
+        calorias=0;
+        distancia=0;
+        Principal.cronometro=0;
         map.clear();
+        map.addPolyline(RutaACorrer);
         p=new PolylineOptions().color(this.getResources().getColor(R.color.colorPrimary));
         map.addPolyline(p);
 
