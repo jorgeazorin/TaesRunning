@@ -63,7 +63,9 @@ public class Principal extends FragmentActivity {
     public static FragmentManager fragmentManager;
     public static Usuario user;
     public static String rutas;
-    public  static String servidor="http://192.168.1.36:3000";
+    public static String ranking;
+    //public  static String servidor="http://192.168.1.36:3000";
+    public static String servidor="http://13.95.145.255";
     private int NumNotificaciones=-1;
     Activity contexto;
     public static int cronometro;
@@ -76,6 +78,7 @@ public class Principal extends FragmentActivity {
         contexto = this;
         user = (Usuario) getIntent().getSerializableExtra("Usuario");
         rutas =  getIntent().getStringExtra("Rutas");
+        ranking= getIntent().getStringExtra("Ranking");
         initUI();
         SmartLocation.with(this).location().config(LocationParams.NAVIGATION).stop();
 
@@ -83,8 +86,7 @@ public class Principal extends FragmentActivity {
         notificaciones.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                notificaciones.setBackgroundColor(Color.parseColor("#ffffff"));
-
+                notificaciones.setImageDrawable(getResources().getDrawable(R.drawable.bell1));
                 Intent intent = new Intent(contexto, NotificacionesActivity.class);
                 intent.putExtra("id",""+Principal.user.getId());
                 contexto.startActivity(intent);
@@ -115,10 +117,9 @@ private void BuscarNotificaciones(){
             try {
                 JSONArray jsonArray=new JSONArray(data);
                 int aNumNotificaciones= jsonArray.length();
-                System.out.println("kkk "+NumNotificaciones+"-"+aNumNotificaciones);
                 if(NumNotificaciones>0){
                     if(NumNotificaciones<aNumNotificaciones){
-                        notificaciones.setBackgroundColor(Color.parseColor("#f3ff48"));
+                        notificaciones.setImageDrawable(getResources().getDrawable(R.drawable.bell1amarillo));
                     }
                 } else
                     NumNotificaciones=aNumNotificaciones;

@@ -114,6 +114,22 @@ public class Usuario implements Serializable {
         return true;
     }
 
+    private void ObtenerRanking(){
+        System.out.println("kkk Otbeniedo ranking");
+        Fuel.get(Principal.servidor+"/users/").responseString(new Handler<String>() {
+            @Override
+            public void failure(Request request, Response response, FuelError error) {
+                pDialog.setTitleText("Error!").setContentText("No se ha obtenido el ranking").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
+             //   GetRutas();
+            }
+            @Override
+            public void success(Request request,Response response, String data) {
+                GetRutas(data);
+                System.out.println("kkk dataa es"+data);
+            }
+        });
+    }
+
     private void IniciarSesion(){
         final Usuario usuario=this;
         JSONObject json = new JSONObject();
@@ -130,32 +146,32 @@ public class Usuario implements Serializable {
         Fuel.post(Principal.servidor+"/users").header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
             @Override
             public void failure(Request request, Response response, FuelError error) {
-                GetRutas();
+                ObtenerRanking();
             }
             @Override
             public void success(Request request,Response response, String data) {
-                GetRutas();
+                ObtenerRanking();
             }
         });
     }
 
-    private void GetRutas(){
+    private void GetRutas(final String ranking){
         Fuel.get(Principal.servidor+"/routes/").responseString(new Handler<String>() {
             @Override
             public void failure(Request request, Response response, FuelError error) {
                 pDialog.setTitleText("Error!").setContentText("No se han obtenido rutas").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
                 System.out.println("kkk Error Obteniendo Rutas");
-                GetUsuario("");
+                GetUsuario("",ranking);
             }
 
             @Override
             public void success(Request request,Response response, String data) {
-                GetUsuario(data);
+                GetUsuario(data, ranking);
             }
         });
     }
 
-    private void GetUsuario(final String rutas){
+    private void GetUsuario(final String rutas, final String Ranking){
         final Usuario usuario=this;
         Fuel.get(Principal.servidor+"/users/email/" + email).responseString(new Handler<String>()
         {
@@ -176,6 +192,8 @@ public class Usuario implements Serializable {
                     Intent intent = new Intent(c, Principal.class);
                     intent.putExtra("Usuario", usuario);
                     intent.putExtra("Rutas",rutas);
+                    System.out.println("kkk intent es "+Ranking);
+                    intent.putExtra("Ranking",Ranking);
                     c.startActivity(intent);
                     pDialog.dismiss();
                 } catch (JSONException e) {

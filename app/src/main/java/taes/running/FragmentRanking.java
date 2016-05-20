@@ -42,22 +42,14 @@ public class FragmentRanking extends Fragment {
 
         final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.vp_item, container, false);
         final ListView listaRanking = (ListView) rootView.findViewById(R.id.ranking_usuarios);
-
-        Fuel.get(Principal.servidor+"/users/").responseString(new Handler<String>() {
-            @Override
-            public void failure(Request request, Response response, FuelError error) {
-            }
-            @Override
-            public void success(Request request,Response response, String data) {
-                JSONArray jsonArray= null;
-                try {
-                    jsonArray = new JSONArray(data);
-                    adaptadorRanking adaptadorRanking=new adaptadorRanking(inflater.getContext(),jsonArray);
-                    listaRanking.setAdapter(adaptadorRanking);
-                } catch (JSONException e) {
-                }
-            }
-        });
+        JSONArray jsonArray= null;
+        try {
+            System.out.println("kkkk el ranking es"+Principal.ranking);
+            jsonArray = new JSONArray(Principal.ranking);
+            adaptadorRanking adaptadorRanking=new adaptadorRanking(inflater.getContext(),jsonArray);
+            listaRanking.setAdapter(adaptadorRanking);
+        } catch (JSONException e) {
+        }
 
         return rootView;
     }

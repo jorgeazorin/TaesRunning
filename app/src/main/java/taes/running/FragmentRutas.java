@@ -88,34 +88,63 @@ public class FragmentRutas extends Fragment {
 
     protected AdapterView.OnItemClickListener clickEnRuta = new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fuel.get(Principal.servidor+"/routes/"+id).responseString(new Handler<String>() {
-                    @Override
-                    public void failure(Request request, Response response, FuelError error) {
-                        System.out.println("kkkkkkkkkkkkksdkjfhalksdjhfalkjshdflashdf");
-                    }
-                    @Override
-                    public void success(Request request,Response response, String data) {
-                        System.out.println(data);
-                        try {
-                            JSONObject jsonObject = new JSONObject(data);
-                            FragmentCorrer.RutaACorrer=new PolylineOptions().color(Color.RED);
+            public void onItemClick(AdapterView<?> parent, View view, int position, final long id) {
+                SweetAlertDialog sweetalert;
 
-                            JSONArray puntosRuta = jsonObject.getJSONArray("puntosRuta");
-                            for(int i=0;i<puntosRuta.length();i++){
-                                CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).bearing(70).tilt(25).target(new LatLng(puntosRuta.getJSONObject(i).getDouble("lati"), puntosRuta.getJSONObject(i).getDouble("longi"))).build();
-                                FragmentCorrer.map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                                FragmentCorrer.RutaACorrer.add(new LatLng(puntosRuta.getJSONObject(i).getDouble("lati"), puntosRuta.getJSONObject(i).getDouble("longi")));
-                                FragmentCorrer.map.addPolyline(FragmentCorrer.RutaACorrer);
+                sweetalert=new SweetAlertDialog(inflater.getContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Mapa")
+                        .setContentText("¿Quieres mostrar la ruta en el mapa?")
+                        .setConfirmText("Si!")
+                        .showCancelButton(true)
+                        .setCancelText("No!");
+                sweetalert.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(final SweetAlertDialog sDialog) {
+
+                        sDialog.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+                        sDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                        sDialog.setTitleText("Loading").showCancelButton(false);
+                        sDialog.setContentText("");
+                        sDialog.setCancelable(false);
+                        Fuel.get(Principal.servidor + "/routes/" + id).responseString(new Handler<String>() {
+                            @Override
+                            public void failure(Request request, Response response, FuelError error) {
+                                sDialog.setTitleText("Error!")
+                                        .setContentText("No se ha podido obtener la ruta!")
+                                        .setConfirmText("OK")
+                                        .showCancelButton(false)
+                                        .setConfirmClickListener(null)
+                                        .changeAlertType(SweetAlertDialog.ERROR_TYPE);
                             }
-                            FragmentCorrer.map.clear();
-                            FragmentCorrer.map.addPolyline(FragmentCorrer.RutaACorrer);
-                            Principal.viewPager.setCurrentItem(2);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+
+                            @Override
+                            public void success(Request request, Response response, String data) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(data);
+                                    FragmentCorrer.RutaACorrer = new PolylineOptions().color(Color.RED);
+
+                                    JSONArray puntosRuta = jsonObject.getJSONArray("puntosRuta");
+                                    for (int i = 0; i < puntosRuta.length(); i++) {
+                                        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).bearing(70).tilt(25).target(new LatLng(puntosRuta.getJSONObject(i).getDouble("lati"), puntosRuta.getJSONObject(i).getDouble("longi"))).build();
+                                        FragmentCorrer.map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                                        FragmentCorrer.RutaACorrer.add(new LatLng(puntosRuta.getJSONObject(i).getDouble("lati"), puntosRuta.getJSONObject(i).getDouble("longi")));
+                                        FragmentCorrer.map.addPolyline(FragmentCorrer.RutaACorrer);
+                                    }
+                                    FragmentCorrer.map.clear();
+                                    FragmentCorrer.map.addPolyline(FragmentCorrer.RutaACorrer);
+                                    Principal.viewPager.setCurrentItem(2);
+                                    sDialog.dismiss();
+                                } catch (JSONException e) {
+                                    sDialog.setTitleText("Error!")
+                                            .setContentText("No se ha podido entender la ruta que envia el servidor!")
+                                            .setConfirmText("OK")
+                                            .showCancelButton(false)
+                                            .setConfirmClickListener(null)
+                                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                }
+                            }
+                        });
+                    }}).show();
             }
     };
 

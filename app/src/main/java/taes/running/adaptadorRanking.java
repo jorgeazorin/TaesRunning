@@ -73,17 +73,8 @@ public class adaptadorRanking extends BaseAdapter {
             nombre.setText(jsonArray.getJSONObject(position).getString("name"));
             num.setText(String.valueOf(position+1));
             puntos.setText(String.valueOf((jsonArray.length()-position)*1000+(jsonArray.length()-position)*23+(jsonArray.length()-position)*45+(jsonArray.length()-position)*4234));
-     /*       if(position<2)
-                imageView.setBackgroundDrawable( inflater.getContext().getResources().getDrawable(R.drawable.animals25) );
-            else if(position<3)
-                imageView.setBackgroundDrawable( inflater.getContext().getResources().getDrawable(R.drawable.animals1) );
-            else if(position<7)
-                imageView.setBackgroundDrawable( inflater.getContext().getResources().getDrawable(R.drawable.animals2) );
-            else if(position<10)
-                imageView.setBackgroundDrawable( inflater.getContext().getResources().getDrawable(R.drawable.animals3) );
-            else if(position<12)
-                imageView.setBackgroundDrawable( inflater.getContext().getResources().getDrawable(R.drawable.animals4) );
-*/
+
+
             if(position==0){
                 num.setTextColor(Color.parseColor("#FFFF9E1E"));
                 imageView.setBackgroundDrawable( inflater.getContext().getResources().getDrawable(R.drawable.crown) );
@@ -97,20 +88,6 @@ public class adaptadorRanking extends BaseAdapter {
                 imageView.setBackgroundDrawable( inflater.getContext().getResources().getDrawable(R.drawable.crownbronce) );
 
             }
-
-            //     relativeLayout.setBackgroundColor(Color.parseColor("#ffbf00"));
-          /*  if(position==1)
-                rowView.setBackgroundColor(Color.parseColor("#8a9597"));
-            if(position==2)
-                rowView.setBackgroundColor(Color.parseColor("#cd7f32"));*/
-/*
-            if(position==0)
-            if(position==1)
-                num.setTextColor(Color.parseColor("#8a9597"));
-            if(position==2)
-                num.setTextColor(Color.parseColor("#cd7f32"));
-
-                */
             return  rowView;
         } catch (JSONException e) {
         }
