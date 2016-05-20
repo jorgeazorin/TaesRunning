@@ -55,9 +55,9 @@ public class AdaptadorUsuario extends PagerAdapter {
     String provincia="";
     int posProvincia;
     ArrayList<String> listaProvincias = new ArrayList<String>();
-    String[] aux={"a coruna","alava","albacete","alicante","almeria","asturias","avila","badajoz","baleares","barcelona","burgos","caceres","cadiz","cantabria","castellon","ceuta","ciudad real","cordoba","cuenca","girona","granada","guadalajara",
-            "guipuzcoa","huelva","huesca","jaen","la rioja","las palmas","leon","lleida","lugo","madrid","malaga","melilla","murcia","navarra","ourense","palencia","pontevedra","salamanca","tenerife","segovia","sevilla","soria","tarragona","teruel",
-            "toledo","valencia","valladolid","vizcaya","zamora","zaragoza"};
+    String[] aux={"A Coruna","Álava","Albacete","Alicante","Almeria","Asturias","Ávila","Badajoz","Baleares","Barcelona","Burgos","Cáceres","Cádiz","Cantabria","Castellón","Ceuta","Ciudad Real","Córdoba","Cuenca","Girona","Granada","Guadalajara",
+            "Guipuzcoa","Huelva","Huesca","Jaén","La Rioja","Las Palmas","León","Lleida","Lugo","Madrid","Málaga","Melilla","Murcia","Navarra","Ourense","Palencia","Pontevedra","Salamanca","Tenerife","Segovia","Sevilla","Soria","Tarragona","Teruel",
+            "Toledo","Valencia","Valladolid","Vizcaya","Zamora","Zaragoza"};
 //--------------------------------------------------------------------
 
     @Override
@@ -185,9 +185,6 @@ public class AdaptadorUsuario extends PagerAdapter {
                 });
                 ///////////////////////
                 break;
-            case 2:
-                layout=  (ViewGroup) inflater.inflate(R.layout.usuario_perfil, collection, false);
-                break;
 
             default:
                 break;
@@ -204,7 +201,7 @@ public class AdaptadorUsuario extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Override

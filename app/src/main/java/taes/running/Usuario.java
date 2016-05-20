@@ -176,8 +176,8 @@ public class Usuario implements Serializable {
                     Intent intent = new Intent(c, Principal.class);
                     intent.putExtra("Usuario", usuario);
                     intent.putExtra("Rutas",rutas);
-                    pDialog.setTitleText("ok!").setContentText("No se ha obtenido el usaurio del email").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
                     c.startActivity(intent);
+                    pDialog.dismiss();
                 } catch (JSONException e) {
                     pDialog.setTitleText("Error json id usuario!").setContentText(data).setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
                 }

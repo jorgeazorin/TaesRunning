@@ -50,7 +50,7 @@ public class Principal extends FragmentActivity {
     public static Usuario user;
     public static String rutas;
     public  static String servidor="http://192.168.1.36:3000";
-  //  public  static String servidor="http://13.95.145.255";
+  //public  static String servidor="http://13.95.145.255";
     Activity contexto;
     public static int cronometro;
    public static ViewPager viewPager;
