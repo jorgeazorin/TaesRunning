@@ -3,8 +3,6 @@ package taes.running;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
-import android.util.Log;
 
 import com.github.kittinunf.fuel.Fuel;
 import com.github.kittinunf.fuel.core.FuelError;
@@ -16,28 +14,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import kotlin.Pair;
 
 public class Usuario implements Serializable {
+    private  SweetAlertDialog pDialog;
+    private Context c;
     private String email;
     public String getEmail(){
         return  email;
@@ -111,6 +97,17 @@ public class Usuario implements Serializable {
     }
 
     public boolean enviarAlServidor(final Context c){
+        this.c=c;
+        pDialog = new SweetAlertDialog(c, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Loading");
+        pDialog.setCancelable(false);
+        pDialog.show();
+        IniciarSesion();
+        return true;
+    }
+
+    private void IniciarSesion(){
         final Usuario usuario=this;
         JSONObject json = new JSONObject();
         try {
@@ -120,86 +117,61 @@ public class Usuario implements Serializable {
             json.put("level",nivel);
             json.put("city","Alicante");
             json.put("rol","USER");
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        final SweetAlertDialog pDialog = new SweetAlertDialog(c, SweetAlertDialog.PROGRESS_TYPE);
-        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText("Loading");
-        pDialog.setCancelable(false);
-        pDialog.show();
-        Fuel.post("http://13.95.145.255/users").header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
+        Fuel.post(Principal.servidor+"/users").header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
             @Override
             public void failure(Request request, Response response, FuelError error) {
-                System.out.println("nokkkkkkkkkk");
-                pDialog.setTitleText("Error!")
-                        .setContentText("No se ha podedio conectar con el servidor")
-                        .setConfirmText("OK")
-                        .showCancelButton(false)
-                        .setConfirmClickListener(null)
-                        .changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                Fuel.get("http://13.95.145.255/routes/").responseString(new Handler<String>() {
-                    @Override
-                    public void failure(Request request, Response response, FuelError error) {
-                        System.out.println("nokkkkkkkkkk");
-                        pDialog.setTitleText("Error!")
-                                .setContentText("No se han obtenido rutas")
-                                .setConfirmText("OK")
-                                .showCancelButton(false)
-                                .setConfirmClickListener(null)
-                                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        //do something when it is failure
-                    }
+                pDialog.setTitleText("Error!").setContentText("Error al hacer post del usuario").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
+            }
+            @Override
+            public void success(Request request,Response response, String data) {
+                GetRutas();
+            }
+        });
+    }
 
-                    @Override
-                    public void success(Request request,Response response, String data) {
-                        System.out.println("okkkkkkkkkk");
-                        JSONArray jsonArray=new JSONArray();
-                        Intent intent = new Intent(c, Principal.class);
-                        intent.putExtra("Usuario", usuario);
-                        intent.putExtra("Rutas",data);
-                        c.startActivity(intent);
-                        pDialog.dismiss();
-                    }
-                });
-                pDialog.dismiss();
-                //do something when it is failure
+    private void GetRutas(){
+        Fuel.get(Principal.servidor+"/routes/").responseString(new Handler<String>() {
+            @Override
+            public void failure(Request request, Response response, FuelError error) {
+                pDialog.setTitleText("Error!").setContentText("No se han obtenido rutas").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                System.out.println("kkk Error Obteniendo Rutas");
+                GetUsuario("");
             }
 
             @Override
             public void success(Request request,Response response, String data) {
-
-
-                Fuel.get("http://13.95.145.255/routes/").responseString(new Handler<String>() {
-                    @Override
-                    public void failure(Request request, Response response, FuelError error) {
-                        System.out.println("nokkkkkkkkkk");
-                        pDialog.setTitleText("Error!")
-                                .setContentText("No se han obtenido rutas")
-                                .setConfirmText("OK")
-                                .showCancelButton(false)
-                                .setConfirmClickListener(null)
-                                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    }
-
-                    @Override
-                    public void success(Request request,Response response, String data) {
-                        System.out.println("okkkkkkkkkk");
-                        JSONArray jsonArray=new JSONArray();
-                        Intent intent = new Intent(c, Principal.class);
-                        intent.putExtra("Usuario", usuario);
-                        intent.putExtra("Rutas",data);
-                        c.startActivity(intent);
-                        pDialog.dismiss();
-                    }
-                });
-                System.out.println("okkkkkkkkkk");
-                System.out.println(data);
-
+                GetUsuario(data);
             }
         });
-        return true;
+    }
+
+    private void GetUsuario(final String rutas){
+        final Usuario usuario=this;
+        Fuel.get(Principal.servidor+"/users/email/" + email).responseString(new Handler<String>()
+        {
+            @Override
+            public void failure(Request request, Response response, FuelError error) {
+                pDialog.setTitleText("Error!").setContentText("No se ha obtenido el usaurio del email").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
+            }
+            @Override
+            public void success(Request request,Response response, String data) {
+                try {
+                    JSONObject jsonbject = new JSONObject(data);
+                    usuario.setId(jsonbject.getString("id"));
+                    System.out.println("kkkk Id Obtenido del usuario" + getId());
+                    Intent intent = new Intent(c, Principal.class);
+                    intent.putExtra("Usuario", usuario);
+                    intent.putExtra("Rutas",rutas);
+                    c.startActivity(intent);
+                } catch (JSONException e) {
+                    pDialog.setTitleText("Error!").setContentText("Error con el json recibido al obtener id usuario").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
+
+                }
+                pDialog.dismiss();
+            }
+        });
     }
 }

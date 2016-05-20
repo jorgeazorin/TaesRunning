@@ -5,5 +5,6 @@
     <color name="colorAccent">#f2f2f2</color>
     <color name="boton_correr_otro">#ae3535</color>
     <color name="boton_correr_otro1">#358aae</color>
+    <color name="primero">#ead708</color>
 
 </resources>

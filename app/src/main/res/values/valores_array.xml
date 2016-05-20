@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="valores_array">
+        <item>a coruna</item>
+        <item>alava</item>
+        <item>albacete</item>
+        <item>alicante</item>
+        <item>almeria</item>
+        <item>asturias</item>
+        <item>avila</item>
+        <item>badajoz</item>
+        <item>baleares</item>
+        <item>barcelona</item>
+        <item>burgos</item>
+        <item>caceres</item>
+        <item>cadiz</item>
+        <item>cantabria</item>
+        <item>castellon</item>
+        <item>ceuta</item>
+        <item>ciudad real</item>
+        <item>cordoba</item>
+        <item>cuenca</item>
+        <item>girona</item>
+        <item>granada</item>
+        <item>guadalajara</item>
+        <item>guipuzcoa</item>
+        <item>huelva</item>
+        <item>huesca</item>
+        <item>jaen</item>
+        <item>la rioja</item>
+        <item>las palmas</item>
+        <item>leon</item>
+        <item>lleida</item>
+        <item>lugo</item>
+        <item>madrid</item>
+        <item>malaga</item>
+        <item>melilla</item>
+        <item>murcia</item>
+        <item>navarra</item>
+        <item>ourense</item>
+        <item>palencia</item>
+        <item>pontevedra</item>
+        <item>salamanca</item>
+        <item>tenerife</item>
+        <item>segovia</item>
+        <item>sevilla</item>
+        <item>soria</item>
+        <item>tarragona</item>
+        <item>teruel</item>
+        <item>toledo</item>
+        <item>valencia</item>
+        <item>valladolid</item>
+        <item>vizcaya</item>
+        <item>zamora</item>
+        <item>zaragoza</item>
+    </string-array>
+</resources>
+
+

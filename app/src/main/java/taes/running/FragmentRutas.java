@@ -67,7 +67,7 @@ public class FragmentRutas extends Fragment {
                 new SwipeItem(0, "Eventos", "Running en la provincia de Alicante."),
                 new SwipeItem(1, "Rutas", "Rutas compartidas por los usuarios.")
         );
-        getEventos();
+       getEventos();
         swipeSelector.setOnItemSelectedListener(new OnSwipeItemSelectedListener() {
             @Override
             public void onItemSelected(SwipeItem item) {
@@ -86,9 +86,10 @@ public class FragmentRutas extends Fragment {
     protected AdapterView.OnItemClickListener clickEnRuta = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fuel.get("http://13.95.145.255/routes/"+id).responseString(new Handler<String>() {
+                Fuel.get(Principal.servidor+"/routes/"+id).responseString(new Handler<String>() {
                     @Override
                     public void failure(Request request, Response response, FuelError error) {
+                        System.out.println("kkkkkkkkkkkkksdkjfhalksdjhfalkjshdflashdf");
                     }
                     @Override
                     public void success(Request request,Response response, String data) {
@@ -119,9 +120,11 @@ public class FragmentRutas extends Fragment {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Fuel.get("http://13.95.145.255/events/"+id).responseString(new Handler<String>() {
+            Fuel.get(Principal.servidor+"/events/"+id).responseString(new Handler<String>() {
                 @Override
                 public void failure(Request request, Response response, FuelError error) {
+                    System.out.println("kkkkkkkkkñldskfjañlskdjfañklsdjflj");
+
                 }
                 @Override
                 public void success(Request request,Response response, String data) {
@@ -155,9 +158,11 @@ public class FragmentRutas extends Fragment {
         pDialog.setTitleText("Loading");
         pDialog.setCancelable(false);
         pDialog.show();
-        Fuel.get("http://13.95.145.255/routes/").responseString(new Handler<String>() {
+        Fuel.get(Principal.servidor+"/routes/").responseString(new Handler<String>() {
             @Override
             public void failure(Request request, Response response, FuelError error) {
+                System.out.println("kkkkkkkkkñldsdf11111sdskfjañlskdjfañklsdjflj");
+
             }
             @Override
             public void success(Request request,Response response, String data) {
@@ -180,9 +185,12 @@ public class FragmentRutas extends Fragment {
         pDialog.setTitleText("Loading");
         pDialog.setCancelable(false);
         pDialog.show();
-        Fuel.get("http://13.95.145.255/events/").responseString(new Handler<String>() {
+        Fuel.get(Principal.servidor+"/events/").responseString(new Handler<String>() {
             @Override
             public void failure(Request request, Response response, FuelError error) {
+                System.out.println("kkkkkkkkkcaca");
+                pDialog.dismiss();
+
             }
             @Override
             public void success(Request request,Response response, String data) {
@@ -190,16 +198,21 @@ public class FragmentRutas extends Fragment {
                 try {
                    final JSONArray jsonArray1 = new JSONArray(data);
 
-                    Fuel.get("http://13.95.145.255/users/"+Principal.user.getId()+"/events/").responseString(new Handler<String>() {
+                    Fuel.get(Principal.servidor+"/events/users/"+Principal.user.getId()+"/").responseString(new Handler<String>() {
                         @Override
                         public void failure(Request request, Response response, FuelError error) {
+                            System.out.println("kkkkkErroru/users/id/events");
+                            adaptadorListaEventos adaptadorEventos = new adaptadorListaEventos(inflater.getContext(),jsonArray1, new JSONArray());
+                            rutasListView.setAdapter(adaptadorEventos);
+                            pDialog.dismiss();
                         }
                         @Override
                         public void success(Request request,Response response, String data) {
                             JSONArray jsonArray2= null;
                             try {
+
                                 jsonArray2 = new JSONArray(data);
-                                adaptadorListaEventos adaptadorEventos = new adaptadorListaEventos(inflater.getContext(),jsonArray1, jsonArray1);
+                                adaptadorListaEventos adaptadorEventos = new adaptadorListaEventos(inflater.getContext(),jsonArray1, jsonArray2);
                                 rutasListView.setAdapter(adaptadorEventos);
                                 pDialog.dismiss();
                             } catch (JSONException e) {
