@@ -1,10 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.db.chart.view.StackBarChartView
-        xmlns:chart="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/Usuariolinechart"
+    xmlns:rsv="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Nivel"
+        android:id="@+id/textView14"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="20dp" />
+
+    <com.roughike.swipeselector.SwipeSelector
+        android:id="@+id/usuario_nivel"
         android:layout_width="match_parent"
-        android:layout_height="100dp"/>
+        android:layout_height="80dp"
+        app:swipe_descriptionGravity="center" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Sexo"
+        android:id="@+id/textView15"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="20dp" />
+
+    <com.roughike.swipeselector.SwipeSelector
+        android:id="@+id/usuario_sexo"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:swipe_descriptionGravity="center" />
+
+
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Provincia"
+        android:id="@+id/textView20"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="20dp" />
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/usuario_provincia"
+        android:layout_below="@+id/textView20"
+        android:layout_alignLeft="@+id/textView20"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="#e4e4e4"
+        android:layout_marginTop="20dp">
+    </Spinner>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:text="Guardar cambios"
+            android:id="@+id/usuario_guardarcambios"
+            android:layout_gravity="center_horizontal"
+            android:background="#0e4e6c"
+            android:textColor="#FFFFFFFF"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+
 </LinearLayout>

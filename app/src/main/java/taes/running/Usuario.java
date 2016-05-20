@@ -1,9 +1,8 @@
 package taes.running;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
-import android.util.Log;
 
 import com.github.kittinunf.fuel.Fuel;
 import com.github.kittinunf.fuel.core.FuelError;
@@ -11,31 +10,20 @@ import com.github.kittinunf.fuel.core.Handler;
 import com.github.kittinunf.fuel.core.Request;
 import com.github.kittinunf.fuel.core.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import kotlin.Pair;
 
 public class Usuario implements Serializable {
+    private transient   SweetAlertDialog pDialog;
+    private transient Context c;
     private String email;
     public String getEmail(){
         return  email;
@@ -44,7 +32,7 @@ public class Usuario implements Serializable {
         this.email=email;
     }
 
-    private String nombre;
+    private String  nombre;
     public String getNombre(){
         return  nombre;
     }
@@ -53,28 +41,35 @@ public class Usuario implements Serializable {
     }
 
 
-    private String id;
+      private String id;
     public String getId(){
         return  id;
     }
     public void setId(String id){
         this.id=id;
     }
+    private String provincia;
+    public String getprovincia(){
+        return  provincia;
+    }
+    public void setprovincia(String provincia){
+        this.provincia=provincia;
+    }
 
-    private int nivel;
-    public int getNivel(){
+    private String nivel;
+    public String getNivel(){
         return  nivel;
     }
-    public void setNivel(int email){
+    public void setNivel(String email){
         this.nivel=email;
     }
 
 
-    private int genero;
-    public int getGenero(){
-        return  nivel;
+    private String genero;
+    public String getGenero(){
+        return  genero;
     }
-    public void setGenero(int email){
+    public void setGenero(String email){
         this.genero=email;
     }
 
@@ -108,8 +103,35 @@ public class Usuario implements Serializable {
         return foto;
     }
 
-    public boolean enviarAlServidor(Context c){
+    public boolean enviarAlServidor(final Context c){
+        this.c=c;
+        pDialog = new SweetAlertDialog(c, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Loading");
+        pDialog.setCancelable(false);
+        pDialog.show();
+        IniciarSesion();
+        return true;
+    }
 
+    private void ObtenerRanking(){
+        System.out.println("kkk Otbeniedo ranking");
+        Fuel.get(Principal.servidor+"/users/").responseString(new Handler<String>() {
+            @Override
+            public void failure(Request request, Response response, FuelError error) {
+                pDialog.setTitleText("Error!").setContentText("No se ha obtenido el ranking").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
+             //   GetRutas();
+            }
+            @Override
+            public void success(Request request,Response response, String data) {
+                GetRutas(data);
+                System.out.println("kkk dataa es"+data);
+            }
+        });
+    }
+
+    private void IniciarSesion(){
+        final Usuario usuario=this;
         JSONObject json = new JSONObject();
         try {
             json.put("name", nombre);
@@ -118,31 +140,67 @@ public class Usuario implements Serializable {
             json.put("level",nivel);
             json.put("city","Alicante");
             json.put("rol","USER");
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        final SweetAlertDialog pDialog = new SweetAlertDialog(c, SweetAlertDialog.PROGRESS_TYPE);
-        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText("Loading");
-        pDialog.setCancelable(false);
-        pDialog.show();
-        Fuel.post("http://40.68.172.180:3000/users").header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
+        Fuel.post(Principal.servidor+"/users").header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
             @Override
             public void failure(Request request, Response response, FuelError error) {
-                System.out.println("nokkkkkkkkkk");
-                pDialog.dismiss();
-                //do something when it is failure
+                ObtenerRanking();
+            }
+            @Override
+            public void success(Request request,Response response, String data) {
+                ObtenerRanking();
+            }
+        });
+    }
+
+    private void GetRutas(final String ranking){
+        Fuel.get(Principal.servidor+"/routes/").responseString(new Handler<String>() {
+            @Override
+            public void failure(Request request, Response response, FuelError error) {
+                pDialog.setTitleText("Error!").setContentText("No se han obtenido rutas").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                System.out.println("kkk Error Obteniendo Rutas");
+                GetUsuario("",ranking);
             }
 
             @Override
             public void success(Request request,Response response, String data) {
-                System.out.println("okkkkkkkkkk");
-                System.out.println(data);
-                pDialog.dismiss();
+                GetUsuario(data, ranking);
             }
         });
-        return true;
+    }
+
+    private void GetUsuario(final String rutas, final String Ranking){
+        final Usuario usuario=this;
+        Fuel.get(Principal.servidor+"/users/email/" + email).responseString(new Handler<String>()
+        {
+            @Override
+            public void failure(Request request, Response response, FuelError error) {
+                pDialog.setTitleText("Error!").setContentText("No se ha obtenido el usaurio del email").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
+            }
+            @Override
+            public void success(Request request,Response response, String data) {
+                try {
+                    JSONArray jsonArray = new JSONArray(data);
+                    JSONObject jsonbject = jsonArray.getJSONObject(0);
+                    usuario.setId(jsonbject.getString("id"));
+                    usuario.setNivel(jsonbject.getString("level"));
+                    usuario.setprovincia(jsonbject.getString("city"));
+                    usuario.setGenero(jsonbject.getString("rol"));
+                    System.out.println("kkkk Id Obtenido del usuario" + getId());
+                    Intent intent = new Intent(c, Principal.class);
+                    intent.putExtra("Usuario", usuario);
+                    intent.putExtra("Rutas",rutas);
+                    System.out.println("kkk intent es "+Ranking);
+                    intent.putExtra("Ranking",Ranking);
+                    c.startActivity(intent);
+                    pDialog.dismiss();
+                } catch (JSONException e) {
+                    pDialog.setTitleText("Error json id usuario!").setContentText(data).setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                }
+             //   pDialog.dismiss();
+            }
+        });
     }
 }

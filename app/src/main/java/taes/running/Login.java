@@ -2,6 +2,7 @@ package taes.running;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,7 +26,7 @@ public class Login extends AppCompatActivity  implements  GoogleApiClient.OnConn
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
-
+    private Context context;
     private GoogleApiClient mGoogleApiClient;
     private TextView mStatusTextView;
     private ProgressDialog mProgressDialog;
@@ -34,6 +35,7 @@ public class Login extends AppCompatActivity  implements  GoogleApiClient.OnConn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        context=this;
         findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,12 +75,10 @@ public class Login extends AppCompatActivity  implements  GoogleApiClient.OnConn
                 user.setEmail(result.getSignInAccount().getEmail());
                 user.setNombre(result.getSignInAccount().getDisplayName().toString());
                 user.setId(result.getSignInAccount().getIdToken());
+                if(result.getSignInAccount().getPhotoUrl()!=null)
                 user.setFoto(result.getSignInAccount().getPhotoUrl().toString());
-                user.enviarAlServidor(this);
-                Intent intent = new Intent(this, Principal.class);
-                intent.putExtra("Usuario", user);
+                user.enviarAlServidor(context);
 
-                startActivity(intent);
             }
         }
     }

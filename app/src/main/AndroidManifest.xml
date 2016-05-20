@@ -16,9 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".Principal">
-
-        </activity>
+        <activity android:name=".Principal"></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -28,7 +26,8 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyA4V3UWgulSkBnvmHSP-wQyzXlyGe47jDg" />
 
-        <activity android:name=".Login"
+        <activity
+            android:name=".Login"
             android:theme="@style/AppTheme1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,6 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".NotificacionesActivity"></activity>
     </application>
 
 </manifest>

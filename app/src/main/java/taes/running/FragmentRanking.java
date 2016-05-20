@@ -1,10 +1,21 @@
 package taes.running;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.github.kittinunf.fuel.Fuel;
+import com.github.kittinunf.fuel.core.FuelError;
+import com.github.kittinunf.fuel.core.Handler;
+import com.github.kittinunf.fuel.core.Request;
+import com.github.kittinunf.fuel.core.Response;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -27,20 +38,19 @@ public class FragmentRanking extends Fragment {
 
     // Inflate the view for the fragment based on layout XML
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.vp_item, container, false);
-        new SweetAlertDialog(inflater.getContext(), SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Are you sure?")
-                .setContentText("Won't be able to recover this file!")
-                .setConfirmText("Yes,delete it!")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.dismissWithAnimation();
-                    }
-                })
-                .show();
+        final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.vp_item, container, false);
+        final ListView listaRanking = (ListView) rootView.findViewById(R.id.ranking_usuarios);
+        JSONArray jsonArray= null;
+        try {
+            System.out.println("kkkk el ranking es"+Principal.ranking);
+            jsonArray = new JSONArray(Principal.ranking);
+            adaptadorRanking adaptadorRanking=new adaptadorRanking(inflater.getContext(),jsonArray);
+            listaRanking.setAdapter(adaptadorRanking);
+        } catch (JSONException e) {
+        }
+
         return rootView;
     }
 }

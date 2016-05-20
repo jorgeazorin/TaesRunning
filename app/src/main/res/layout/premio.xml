@@ -4,14 +4,15 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/PremioImagen"
-        android:layout_gravity="center_horizontal"
         android:src="@drawable/animals3"
+        android:layout_gravity="center_horizontal"
         android:tint="#ffffff"
         android:background="#6e969a"
-        android:padding="50dp" />
+        android:padding="50dp"
+        android:layout_margin="20dp" />
 
     <TextView
         android:layout_width="wrap_content"

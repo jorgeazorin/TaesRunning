@@ -11,19 +11,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Title"
-            android:text="Taes Running"
-            android:id="@+id/textView"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:paddingRight="5dp"
-            android:paddingLeft="10dp"
-            android:background="#0e4e6c"
-            android:textColor="#ffffff"
-            android:singleLine="false" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Title"
+                android:text="Taes Running"
+                android:id="@+id/textView"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="10dp"
+                android:background="#0e4e6c"
+                android:textColor="#ffffff"
+                android:singleLine="false" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/notificacion_botonimagen"
+                android:layout_alignParentRight="true"
+                android:layout_margin="17dp"
+                android:background="@drawable/bell1" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -11,10 +11,9 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/imageView3"
+            android:id="@+id/usuario_imagen_Perfil"
             android:layout_gravity="center_horizontal"
             android:layout_alignParentBottom="false"
-            android:src="@drawable/senor"
             android:cropToPadding="false"
             android:scaleType="centerCrop"
             android:layout_alignParentLeft="false" />
@@ -24,7 +23,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Pepe Tal"
-            android:id="@+id/textView2"
+            android:id="@+id/usuario_Nombre"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_alignParentLeft="true"
@@ -102,7 +101,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Desliza hacia arriba para ver estadísticas"
+            android:text="Desliza hacia arriba para seleccionar preferencias"
             android:id="@+id/textView6"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"

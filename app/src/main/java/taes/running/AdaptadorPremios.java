@@ -27,7 +27,7 @@ public class AdaptadorPremios extends PagerAdapter {
         TextView texto =(TextView) layout.findViewById(R.id.premioTextView);
         switch (position) {
             case 0:
-                imagen.setImageResource(R.drawable.animals7);
+                imagen.setImageResource(R.drawable.animals14);
                 imagen.setBackgroundColor(Color.argb(255,135, 63, 156));
                 texto.setText("Tortuga");
                 break;
@@ -38,7 +38,7 @@ public class AdaptadorPremios extends PagerAdapter {
                 texto.setText("Perezoso");
                 break;
             case 2:
-                imagen.setImageResource(R.drawable.animals14);
+                imagen.setImageResource(R.drawable.animals24);
                 imagen.setBackgroundColor(Color.argb(255,63, 156, 135));
                 texto.setText("Ñu");
                 break;
@@ -48,13 +48,13 @@ public class AdaptadorPremios extends PagerAdapter {
                 texto.setText("Ganador de batalla");
                 break;
             case 4:
-                imagen.setImageResource(R.drawable.animals27);
+                imagen.setImageResource(R.drawable.animals25);
                 imagen.setBackgroundColor(Color.argb(255, 156, 135, 63));
 
                 texto.setText("Mejor maratón");
                 break;
             case 5:
-                imagen.setImageResource(R.drawable.animals7);
+                imagen.setImageResource(R.drawable.animals5);
                 imagen.setBackgroundColor(Color.argb(255, 255, 255, 255));
                 texto.setText("Perezoso");
                 break;
