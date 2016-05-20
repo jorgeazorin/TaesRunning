@@ -22,8 +22,8 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import kotlin.Pair;
 
 public class Usuario implements Serializable {
-    private  SweetAlertDialog pDialog;
-    private Context c;
+    private transient   SweetAlertDialog pDialog;
+    private transient Context c;
     private String email;
     public String getEmail(){
         return  email;
@@ -32,7 +32,7 @@ public class Usuario implements Serializable {
         this.email=email;
     }
 
-    private String nombre;
+    private String  nombre;
     public String getNombre(){
         return  nombre;
     }
@@ -41,28 +41,35 @@ public class Usuario implements Serializable {
     }
 
 
-    private String id;
+      private String id;
     public String getId(){
         return  id;
     }
     public void setId(String id){
         this.id=id;
     }
+    private String provincia;
+    public String getprovincia(){
+        return  provincia;
+    }
+    public void setprovincia(String provincia){
+        this.provincia=provincia;
+    }
 
-    private int nivel;
-    public int getNivel(){
+    private String nivel;
+    public String getNivel(){
         return  nivel;
     }
-    public void setNivel(int email){
+    public void setNivel(String email){
         this.nivel=email;
     }
 
 
-    private int genero;
-    public int getGenero(){
-        return  nivel;
+    private String genero;
+    public String getGenero(){
+        return  genero;
     }
-    public void setGenero(int email){
+    public void setGenero(String email){
         this.genero=email;
     }
 
@@ -123,7 +130,7 @@ public class Usuario implements Serializable {
         Fuel.post(Principal.servidor+"/users").header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
             @Override
             public void failure(Request request, Response response, FuelError error) {
-                pDialog.setTitleText("Error!").setContentText("Error al hacer post del usuario").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                GetRutas();
             }
             @Override
             public void success(Request request,Response response, String data) {
@@ -159,18 +166,22 @@ public class Usuario implements Serializable {
             @Override
             public void success(Request request,Response response, String data) {
                 try {
-                    JSONObject jsonbject = new JSONObject(data);
+                    JSONArray jsonArray = new JSONArray(data);
+                    JSONObject jsonbject = jsonArray.getJSONObject(0);
                     usuario.setId(jsonbject.getString("id"));
+                    usuario.setNivel(jsonbject.getString("level"));
+                    usuario.setprovincia(jsonbject.getString("city"));
+                    usuario.setGenero(jsonbject.getString("rol"));
                     System.out.println("kkkk Id Obtenido del usuario" + getId());
                     Intent intent = new Intent(c, Principal.class);
                     intent.putExtra("Usuario", usuario);
                     intent.putExtra("Rutas",rutas);
+                    pDialog.setTitleText("ok!").setContentText("No se ha obtenido el usaurio del email").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
                     c.startActivity(intent);
                 } catch (JSONException e) {
-                    pDialog.setTitleText("Error!").setContentText("Error con el json recibido al obtener id usuario").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
-
+                    pDialog.setTitleText("Error json id usuario!").setContentText(data).setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
                 }
-                pDialog.dismiss();
+             //   pDialog.dismiss();
             }
         });
     }

@@ -49,8 +49,8 @@ public class Principal extends FragmentActivity {
     public static FragmentManager fragmentManager;
     public static Usuario user;
     public static String rutas;
-    public  static String servidor="http://192.168.1.41:3000";
-    //public  static String servidor="http://13.95.145.255";
+    public  static String servidor="http://192.168.1.36:3000";
+  //  public  static String servidor="http://13.95.145.255";
     Activity contexto;
     public static int cronometro;
    public static ViewPager viewPager;
@@ -88,7 +88,7 @@ public class Principal extends FragmentActivity {
         models.add(new NavigationTabBar.Model(
                 getResources().getDrawable(R.drawable.ic_seventh), Color.parseColor(colors[4]), "Ranking"));
         navigationTabBar.setModels(models);
-        navigationTabBar.setViewPager(viewPager,0);
+        navigationTabBar.setViewPager(viewPager,2);
         navigationTabBar.post(new Runnable() {
             @Override
             public void run() {

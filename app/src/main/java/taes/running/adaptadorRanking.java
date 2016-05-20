@@ -88,6 +88,14 @@ public class adaptadorRanking extends BaseAdapter {
                 num.setTextColor(Color.parseColor("#FFFF9E1E"));
                 imageView.setBackgroundDrawable( inflater.getContext().getResources().getDrawable(R.drawable.crown) );
 
+            }if(position==1){
+                num.setTextColor(Color.parseColor("#696969"));
+                imageView.setBackgroundDrawable( inflater.getContext().getResources().getDrawable(R.drawable.crowngray) );
+
+            }if(position==2){
+                num.setTextColor(Color.parseColor("#c15202"));
+                imageView.setBackgroundDrawable( inflater.getContext().getResources().getDrawable(R.drawable.crownbronce) );
+
             }
 
             //     relativeLayout.setBackgroundColor(Color.parseColor("#ffbf00"));

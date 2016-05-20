@@ -1,11 +1,13 @@
 package taes.running;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,14 +20,20 @@ import com.github.kittinunf.fuel.core.FuelError;
 import com.github.kittinunf.fuel.core.Handler;
 import com.github.kittinunf.fuel.core.Request;
 import com.github.kittinunf.fuel.core.Response;
+import com.roughike.swipeselector.SwipeItem;
+import com.roughike.swipeselector.SwipeSelector;
 import com.vi.swipenumberpicker.OnValueChangeListener;
 import com.vi.swipenumberpicker.SwipeNumberPicker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import kotlin.Pair;
 
 /**
  * Created by jorge on 27/04/2016.
@@ -59,33 +67,6 @@ public class AdaptadorUsuario extends PagerAdapter {
 
         //---------------------------------------------
         listaProvincias.addAll(Arrays.asList(aux));
-
-        //consulto los datos del usuario a partir de su id
-        Fuel.get(Principal.servidor+"/users/" + Principal.user.getId()).responseString(new Handler<String>()
-        {
-            @Override
-            public void failure(Request request, Response response, FuelError error) {
-                System.out.println("nokkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
-                System.out.println("kkkk Usuario Principal "+Principal.user.getId());
-            }
-
-            @Override
-            public void success(Request request,Response response, String data) {
-                System.out.println("okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
-                try {
-                    JSONObject jsonobject = new JSONObject(data);
-                    //cojo el nivel del usuario y lo guardo en la variable nivel
-                    nivel=jsonobject.getString("level");
-                    //cojo la provincia y la guardo en la variable provincia
-                    provincia=jsonobject.getString("city");
-                    //compruebo en que posición está y la almaceno en posProvincia
-                    posProvincia=listaProvincias.indexOf(provincia);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
         switch (position) {
             case 0:
                 layout=  (ViewGroup) inflater.inflate(R.layout.usuario_perfil, collection, false);
@@ -101,37 +82,108 @@ public class AdaptadorUsuario extends PagerAdapter {
                 campoNivel.setText("nivel: " + nivel);
                 break;
 
+
+
             case 1:
                 layout=  (ViewGroup) inflater.inflate(R.layout.ruta_recorrida, collection, false);
-                //smallSlider = (RangeSliderView) layout.findViewById(R.id.rsv_large);
-                final RangeSliderView.OnSlideListener listener = new RangeSliderView.OnSlideListener() {
-                    @Override
-                    public void onSlide(int index) {
-                        Toast.makeText(
-                                inflater.getContext(),"Hi index: " + index,Toast.LENGTH_SHORT).show();
-                    }
-                };
-                //smallSlider.setOnSlideListener(listener);
-                String result1;
-                final SwipeNumberPicker swipeNumberPicker = (SwipeNumberPicker) layout.findViewById(R.id.nivel_picker);
-                swipeNumberPicker.setOnValueChangeListener(new OnValueChangeListener() {
-                    @Override
-                    public boolean onValueChange(SwipeNumberPicker view, int oldValue, int newValue) {
-                        boolean isValueOk = (newValue & 1) == 0;
-                        if (isValueOk)
-                            swipeNumberPicker.setValue(newValue,false);
-                        return true;
-                    }
-                });
-                //-------------------------------
-                //comienza Spinner
 
-                lista=(Spinner)layout.findViewById(R.id.spinner);
 
+
+                /////////////////////////
+                //Provincias
+                lista=(Spinner)layout.findViewById(R.id.usuario_provincia);
                 ArrayAdapter<CharSequence> adaptador = ArrayAdapter.createFromResource(mContext, R.array.valores_array, android.R.layout.simple_spinner_dropdown_item);
                 lista.setAdapter(adaptador);
-                lista.setSelection(posProvincia);
+                for(int i=0; i<listaProvincias.size();i++){
+                    if(listaProvincias.get(i).equals(Principal.user.getprovincia())){
+                        lista.setSelection(i);
+                        break;
+                    }
+                }
+                /////////////////////////
 
+
+
+
+
+                //Nivel
+                final SwipeSelector nivel = (SwipeSelector) layout.findViewById(R.id.usuario_nivel);
+                nivel.setItems(
+                        new SwipeItem(0, "Inútil", "Te cuesta andar 5 pasos."),
+                        new SwipeItem(1, "Débil", "Vas lento y te cuesta."),
+                        new SwipeItem(2, "Normal", "Corres cuando vas al bus."),
+                        new SwipeItem(3, "Veloz", "Sueles hacer running para llenar tus vacios."),
+                        new SwipeItem(4, "SuperHombre", "Tienes una obsesión, un problema.")
+                );
+                if(Principal.user.getNivel().equals("Inútil"))
+                     nivel.selectItemAt(0);
+                else if(Principal.user.getNivel().equals("Débil"))
+                    nivel.selectItemAt(1);
+                else if(Principal.user.getNivel().equals("Normal"))
+                    nivel.selectItemAt(2);
+                else if(Principal.user.getNivel().equals("Veloz"))
+                    nivel.selectItemAt(3);
+                else if(Principal.user.getNivel().equals("SuperHombre"))
+                    nivel.selectItemAt(4);
+                else
+                    nivel.selectItemAt(0);
+                /////////////////////////
+
+
+
+
+                //Sexo
+                final SwipeSelector sexo = (SwipeSelector) layout.findViewById(R.id.usuario_sexo);
+                sexo.setItems(
+                        new SwipeItem(0, "Hombre", "Selecciona esta opción si eres hombre."),
+                        new SwipeItem(1, "Mujer", "Esta opción si eres mujer.")
+                );
+
+                if(Principal.user.getGenero().equals("Mujer"))
+                   sexo.selectItemAt(1);
+                else
+                    sexo.selectItemAt(0);
+
+                /////////////////////////
+
+
+
+
+                //GuardarCambios
+                Button guardarCambios=(Button) layout.findViewById(R.id.usuario_guardarcambios);
+                final SweetAlertDialog pDialog= new SweetAlertDialog( mContext, SweetAlertDialog.PROGRESS_TYPE);
+                guardarCambios.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                        pDialog.setTitleText("Loading");
+                        pDialog.setCancelable(false);
+                        pDialog.show();
+                        JSONObject json = new JSONObject();
+                        try {
+                            json.put("name", Principal.user.getNombre());
+                            json.put("password",Principal.user.getId());
+                            json.put("email",Principal.user.getEmail());
+                            json.put("level",nivel.getSelectedItem().title);
+                            json.put("city",lista.getSelectedItem());
+                            json.put("rol",sexo.getSelectedItem().title);
+                        } catch (JSONException e) {
+                            
+                        }
+                        Fuel.put(Principal.servidor+"/users/"+Principal.user.getId()).header(new Pair<>("Content-Type", "application/json")).body(json.toString(), Charset.defaultCharset()).responseString(new Handler<String>() {
+                            @Override
+                            public void failure(Request request, Response response, FuelError error) {
+                                pDialog.setTitleText("Error!").setContentText("No se ha guardar el usuario").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                            }
+
+                            @Override
+                            public void success(Request request,Response response, String data) {
+                                pDialog.setTitleText("Guardado!").setContentText("Se ha guardar el usuario").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                            }
+                        });
+                    }
+                });
+                ///////////////////////
                 break;
             case 2:
                 layout=  (ViewGroup) inflater.inflate(R.layout.usuario_perfil, collection, false);
