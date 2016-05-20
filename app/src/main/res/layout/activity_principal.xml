@@ -32,10 +32,10 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:id="@+id/imageView3"
-                android:src="@drawable/bell1"
+                android:id="@+id/notificacion_botonimagen"
                 android:layout_alignParentRight="true"
-                android:layout_margin="17dp" />
+                android:layout_margin="17dp"
+                android:background="@drawable/bell1" />
         </RelativeLayout>
 
         <RelativeLayout

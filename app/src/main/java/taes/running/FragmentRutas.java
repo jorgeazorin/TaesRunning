@@ -40,6 +40,9 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  */
 public class FragmentRutas extends Fragment {
     private View view;
+    private JSONArray TodoslosEvetos;
+    private JSONArray EnlosQueParticipo;
+
     private ListView rutasListView;
     public static  JSONArray jsonArray=null;
     private LayoutInflater inflater;
@@ -76,7 +79,7 @@ public class FragmentRutas extends Fragment {
                     rutasListView.setOnItemClickListener(clickEnRuta);
                 }else{
                     getEventos();
-                    rutasListView.setOnItemClickListener(null);
+                    rutasListView.setOnItemClickListener(clickEnEvento);
                 }
             }
         });
@@ -117,37 +120,86 @@ public class FragmentRutas extends Fragment {
     };
 
     protected AdapterView.OnItemClickListener clickEnEvento = new AdapterView.OnItemClickListener() {
-
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Fuel.get(Principal.servidor+"/events/"+id).responseString(new Handler<String>() {
-                @Override
-                public void failure(Request request, Response response, FuelError error) {
-                    System.out.println("kkkkkkkkkñldskfjañlskdjfañklsdjflj");
+        public void onItemClick(AdapterView<?> parent, View view, int position, final long id) {
+            boolean participa = false;
+            for (int i = 0; i < EnlosQueParticipo.length(); i++) {
+                try {
+                    if (EnlosQueParticipo.getJSONObject(i).getInt("EventId") == id)
+                        participa = true;
+                } catch (JSONException e) {
 
                 }
-                @Override
-                public void success(Request request,Response response, String data) {
-                    System.out.println(data);
-                    try {
-                        JSONObject jsonObject = new JSONObject(data);
-                        FragmentCorrer.RutaACorrer=new PolylineOptions().color(Color.RED);
+            }
+            final boolean finalParticipa = participa;
+            SweetAlertDialog sweetalert;
+            if(participa)
+                sweetalert=new SweetAlertDialog(inflater.getContext(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("¿Seguro?")
+                .setContentText("¿Quieres desapuntarte al evento?")
+                .setConfirmText("Si!")
+                .showCancelButton(true)
+                .setCancelText("No!");
+            else
+                sweetalert=new SweetAlertDialog(inflater.getContext(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("¿Quieres apuntarte al evento?")
+                .setContentText("")
+                .setConfirmText("Si!")
+                .showCancelButton(true)
+                .setCancelText("No!");
+                sweetalert.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(final SweetAlertDialog sDialog) {
+                            sDialog.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+                            sDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                            sDialog.setTitleText("Loading").showCancelButton(false);
+                            sDialog.setContentText("");
+                            sDialog.setCancelable(false);
+                            if(!finalParticipa)
+                                Fuel.post(Principal.servidor + "/events/" + id + "/users/" + Principal.user.getId()).responseString(new Handler<String>() {
+                                    @Override
+                                    public void failure(Request request, Response response, FuelError error) {
+                                        sDialog.setTitleText("Error!")
+                                        .setContentText("No se ha podido apuntarte!")
+                                        .setConfirmText("OK")
+                                        .showCancelButton(false)
+                                        .setConfirmClickListener(null)
+                                        .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                    }
 
-                        JSONArray puntosRuta = jsonObject.getJSONArray("puntosRuta");
-                        for(int i=0;i<puntosRuta.length();i++){
-                            CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).bearing(70).tilt(25).target(new LatLng(puntosRuta.getJSONObject(i).getDouble("lati"), puntosRuta.getJSONObject(i).getDouble("longi"))).build();
-                            FragmentCorrer.map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                            FragmentCorrer.RutaACorrer.add(new LatLng(puntosRuta.getJSONObject(i).getDouble("lati"), puntosRuta.getJSONObject(i).getDouble("longi")));
-                            FragmentCorrer.map.addPolyline(FragmentCorrer.RutaACorrer);
-                        }
-                        FragmentCorrer.map.clear();
-                        FragmentCorrer.map.addPolyline(FragmentCorrer.RutaACorrer);
-                        Principal.viewPager.setCurrentItem(2);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
+                                    @Override
+                                    public void success(Request request, Response response, String data) {
+                                        sDialog.setTitleText("Correcto!")
+                                        .setContentText("Te hemos apuntado!")
+                                        .setConfirmText("OK").showCancelButton(false)
+                                        .setConfirmClickListener(null)
+                                        .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                        getEventos();
+                                    }
+                                });
+                            else
+                                Fuel.delete(Principal.servidor + "/events/" + id + "/users/" + Principal.user.getId()).responseString(new Handler<String>() {
+                                    @Override
+                                    public void failure(Request request, Response response, FuelError error) {
+                                        sDialog.setTitleText("Error!")
+                                        .setContentText("No se ha podido desapuntarte!")
+                                        .setConfirmText("OK")
+                                        .showCancelButton(false)
+                                        .setConfirmClickListener(null)
+                                        .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                    }
+
+                                    @Override
+                                    public void success(Request request, Response response, String data) {
+                                        sDialog.setTitleText("Correcto!")
+                                        .setContentText("Te hemos desapuntado!")
+                                        .setConfirmText("OK").showCancelButton(false)
+                                        .setConfirmClickListener(null)
+                                        .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                        getEventos();
+                                    }
+                                });
+                        }}).show();
         }
 
     };
@@ -161,8 +213,12 @@ public class FragmentRutas extends Fragment {
         Fuel.get(Principal.servidor+"/routes/").responseString(new Handler<String>() {
             @Override
             public void failure(Request request, Response response, FuelError error) {
-                System.out.println("kkkkkkkkkñldsdf11111sdskfjañlskdjfañklsdjflj");
-
+                pDialog.setTitleText("Error!")
+                .setContentText("No se han cargado las rutas!")
+                .setConfirmText("OK")
+                .showCancelButton(false)
+                .setConfirmClickListener(null)
+                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
             }
             @Override
             public void success(Request request,Response response, String data) {
@@ -189,30 +245,38 @@ public class FragmentRutas extends Fragment {
             @Override
             public void failure(Request request, Response response, FuelError error) {
                 System.out.println("kkkkkkkkkcaca");
-                pDialog.dismiss();
-
+                pDialog.setTitleText("Error!")
+                .setContentText("No se han cargado eventos!")
+                .setConfirmText("OK")
+                .showCancelButton(false)
+                .setConfirmClickListener(null)
+                .changeAlertType(SweetAlertDialog.ERROR_TYPE);
             }
             @Override
             public void success(Request request,Response response, String data) {
                 //JSONArray jsonArray= null;
                 try {
-                   final JSONArray jsonArray1 = new JSONArray(data);
+                     TodoslosEvetos = new JSONArray(data);
 
                     Fuel.get(Principal.servidor+"/events/users/"+Principal.user.getId()+"/").responseString(new Handler<String>() {
                         @Override
                         public void failure(Request request, Response response, FuelError error) {
                             System.out.println("kkkkkErroru/users/id/events");
-                            adaptadorListaEventos adaptadorEventos = new adaptadorListaEventos(inflater.getContext(),jsonArray1, new JSONArray());
+                            adaptadorListaEventos adaptadorEventos = new adaptadorListaEventos(inflater.getContext(),TodoslosEvetos, new JSONArray());
                             rutasListView.setAdapter(adaptadorEventos);
-                            pDialog.dismiss();
+                            pDialog.setTitleText("Error!")
+                            .setContentText("No se han cargado tu eventos!")
+                            .setConfirmText("OK")
+                            .showCancelButton(false)
+                            .setConfirmClickListener(null)
+                            .changeAlertType(SweetAlertDialog.ERROR_TYPE);
                         }
                         @Override
                         public void success(Request request,Response response, String data) {
-                            JSONArray jsonArray2= null;
+                            //JSONArray En= null;
                             try {
-
-                                jsonArray2 = new JSONArray(data);
-                                adaptadorListaEventos adaptadorEventos = new adaptadorListaEventos(inflater.getContext(),jsonArray1, jsonArray2);
+                                EnlosQueParticipo = new JSONArray(data);
+                                adaptadorListaEventos adaptadorEventos = new adaptadorListaEventos(inflater.getContext(),TodoslosEvetos, EnlosQueParticipo);
                                 rutasListView.setAdapter(adaptadorEventos);
                                 pDialog.dismiss();
                             } catch (JSONException e) {

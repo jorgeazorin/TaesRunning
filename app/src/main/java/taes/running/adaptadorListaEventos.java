@@ -73,7 +73,7 @@ public class adaptadorListaEventos extends BaseAdapter {
             } else {
                 if (position <= jsonArrayEnLosQueParticipo.length()) {
                     position = position - 1;
-                    return jsonArrayEnLosQueParticipo.getJSONObject(position).getInt("id");
+                    return jsonArrayEnLosQueParticipo.getJSONObject(position).getInt("EventId");
                 } else {
                     position = position - jsonArrayEnLosQueParticipo.length() - 2;
                     return jsonArrayTodosLosEventos.getJSONObject(position).getInt("id");
