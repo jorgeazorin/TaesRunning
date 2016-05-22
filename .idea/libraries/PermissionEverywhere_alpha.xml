@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="PermissionEverywhere-alpha">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.kaknazaveshtakipishi/PermissionEverywhere/alpha/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.github.kaknazaveshtakipishi/PermissionEverywhere/alpha/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

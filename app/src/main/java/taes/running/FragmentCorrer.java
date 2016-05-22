@@ -82,8 +82,9 @@ public class FragmentCorrer extends Fragment  {
             fm.beginTransaction().replace(R.id.map, fragment).commit();
         }
         final MorphingButton btnMorph = (MorphingButton) v.findViewById(R.id.correr_boton_empezar);
-
-
+        MorphingButton.Params circles = MorphingButton.Params.create().text("Parar").duration(00).cornerRadius(200).width(200).height(200).color(getResources().getColor(R.color.boton_correr_otro));
+        if(corriendo)
+            btnMorph.morph(circles);
         btnMorph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,9 +97,9 @@ public class FragmentCorrer extends Fragment  {
 
                     MorphingButton.Params circle = MorphingButton.Params.create().text("Parar")
                             .duration(300)
-                            .cornerRadius(150)
-                            .width(150)
-                            .height(150)
+                            .cornerRadius(200)
+                            .width(200)
+                            .height(200)
                             .color(getResources().getColor(R.color.boton_correr_otro));
                     btnMorph.morph(circle);
                 }else{
@@ -132,6 +133,7 @@ public class FragmentCorrer extends Fragment  {
                         @Override
                         public void onMyLocationChange(Location location) {
                             if(!moverMapa) {
+
                                 CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).bearing(70).tilt(25).target(new LatLng(location.getLatitude(), location.getLongitude())).build();
                                 map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                             }

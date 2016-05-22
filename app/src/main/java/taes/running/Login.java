@@ -1,5 +1,6 @@
 package taes.running;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -21,6 +23,11 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.permissioneverywhere.PermissionEverywhere;
+import com.permissioneverywhere.PermissionResponse;
+import com.permissioneverywhere.PermissionResultCallback;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class Login extends AppCompatActivity  implements  GoogleApiClient.OnConnectionFailedListener {
 
@@ -55,6 +62,21 @@ public class Login extends AppCompatActivity  implements  GoogleApiClient.OnConn
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_WIDE);
         signInButton.setScopes(gso.getScopeArray());
+
+
+
+        PermissionEverywhere.getPermission(getApplicationContext(),
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                123,
+                "Running Localización",
+                "Permiso Localización",
+                R.mipmap.ic_launcher)
+                .enqueue(new PermissionResultCallback() {
+                    @Override
+                    public void onComplete(PermissionResponse permissionResponse) {
+                        Toast.makeText(getApplicationContext(), "is Granted " + permissionResponse.isGranted(), Toast.LENGTH_SHORT).show();
+                    }
+                });
         }
 
 
@@ -78,6 +100,10 @@ public class Login extends AppCompatActivity  implements  GoogleApiClient.OnConn
                 if(result.getSignInAccount().getPhotoUrl()!=null)
                 user.setFoto(result.getSignInAccount().getPhotoUrl().toString());
                 user.enviarAlServidor(context);
+            }else{
+                System.out.println("kkk " +result.getStatus());
+                SweetAlertDialog pDialog=new SweetAlertDialog(getApplicationContext());
+                pDialog.setTitleText("Error!").setContentText("Google no te quiere!").setConfirmText("OK").showCancelButton(false).setConfirmClickListener(null).changeAlertType(SweetAlertDialog.ERROR_TYPE);
 
             }
         }

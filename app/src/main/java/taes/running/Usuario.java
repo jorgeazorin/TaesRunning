@@ -105,6 +105,7 @@ public class Usuario implements Serializable {
 
     public boolean enviarAlServidor(final Context c){
         this.c=c;
+        System.out.println("kkkk esto no va");
         pDialog = new SweetAlertDialog(c, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         pDialog.setTitleText("Loading");

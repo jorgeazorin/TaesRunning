@@ -59,6 +59,7 @@ public class FragmentRutas extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,7 +71,9 @@ public class FragmentRutas extends Fragment {
                 new SwipeItem(0, "Eventos", "Running en la provincia de Alicante."),
                 new SwipeItem(1, "Rutas", "Rutas compartidas por los usuarios.")
         );
-       getEventos();
+        rutasListView.setOnItemClickListener(clickEnEvento);
+        swipeSelector.selectItemAt(0);
+        getEventos();
         swipeSelector.setOnItemSelectedListener(new OnSwipeItemSelectedListener() {
             @Override
             public void onItemSelected(SwipeItem item) {
