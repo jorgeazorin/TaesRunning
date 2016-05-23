@@ -59,7 +59,7 @@ public class FragmentCorrer extends Fragment  {
     private float distancia=0;
     private Location ultimaLocation=null;
     private int calorias;
-    private boolean moverMapa=false;
+    public static boolean moverMapa=false;
     private PolylineOptions p;
     public static PolylineOptions RutaACorrer;
     private int wMorphingButton=0;
@@ -264,22 +264,25 @@ public class FragmentCorrer extends Fragment  {
                         final JSONObject json = new JSONObject();
                         try {
 
-                            JSONObject jsonRuta = new JSONObject();
-                            jsonRuta.put("nombre",Principal.user.getNombre());
-                            jsonRuta.put("distancia",distancia);
-                            JSONObject jsonDatosCorridos = new JSONObject();
-                            jsonDatosCorridos.put("velocidad",distancia*3.6/Principal.cronometro);
+                            json.put("name",Principal.user.getNombre());
+                            json.put("distancia",distancia);
+                            json.put("level","un nivel");
+                            json.put("longitud",""+p.getPoints().get(0).longitude);
+                            json.put("latitud",""+p.getPoints().get(0).latitude);
+                    //        JSONObject jsonDatosCorridos = new JSONObject();
+                    //        jsonDatosCorridos.put("velocidad",distancia*3.6/Principal.cronometro);
                             Principal.cronometro=0;
-                            jsonDatosCorridos.put("km",distancia/1000);
-                            jsonDatosCorridos.put("calorias",calorias);
-                            jsonDatosCorridos.put("fecha","12/12/2015");
-                            json.put("ruta", jsonRuta);
-                            json.put("datosCorridos", jsonDatosCorridos);
+                    //        jsonDatosCorridos.put("km",distancia/1000);
+                    //        jsonDatosCorridos.put("calorias",calorias);
+                    //        jsonDatosCorridos.put("fecha","12/12/2015");
+                       //    json.put("ruta", jsonRuta);
+                       //    json.put("ruta", jsonRuta);
+                   //         json.put("datosCorridos", jsonDatosCorridos);
                             JSONArray Puntos = new JSONArray();
                             for(int i=0;i<p.getPoints().size();i++){
                                 JSONObject punto = new JSONObject();
-                                punto.put("lati",p.getPoints().get(i).latitude);
-                                punto.put("longi",p.getPoints().get(i).longitude);
+                                punto.put("latitud",p.getPoints().get(i).latitude);
+                                punto.put("longitud",p.getPoints().get(i).longitude);
                                 Puntos.put(punto);
                             }
                             json.put("puntosRuta",Puntos);

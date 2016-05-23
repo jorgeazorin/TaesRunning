@@ -128,9 +128,10 @@ public class FragmentRutas extends Fragment {
 
                                     JSONArray puntosRuta = jsonObject.getJSONArray("puntosRuta");
                                     for (int i = 0; i < puntosRuta.length(); i++) {
-                                        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).bearing(70).tilt(25).target(new LatLng(puntosRuta.getJSONObject(i).getDouble("lati"), puntosRuta.getJSONObject(i).getDouble("longi"))).build();
+                                        FragmentCorrer.moverMapa=true;
+                                        CameraPosition cameraPosition = new CameraPosition.Builder().zoom(15).bearing(70).tilt(25).target(new LatLng(puntosRuta.getJSONObject(i).getDouble("latitud"), puntosRuta.getJSONObject(i).getDouble("longitud"))).build();
                                         FragmentCorrer.map.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                                        FragmentCorrer.RutaACorrer.add(new LatLng(puntosRuta.getJSONObject(i).getDouble("lati"), puntosRuta.getJSONObject(i).getDouble("longi")));
+                                        FragmentCorrer.RutaACorrer.add(new LatLng(puntosRuta.getJSONObject(i).getDouble("latitud"), puntosRuta.getJSONObject(i).getDouble("longitud")));
                                         FragmentCorrer.map.addPolyline(FragmentCorrer.RutaACorrer);
                                     }
                                     FragmentCorrer.map.clear();
